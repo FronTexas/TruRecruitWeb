@@ -1,35 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { 
-	Switch, 
-	Route
-} from 'react-router';
-import {
-	BrowserRouter,
-} from 'react-router-dom';
+import reducer from './reducers';
+import thunkMiddleware from 'redux-thunk';
+import {createLogger} from 'redux-logger';
+import {createStore,applyMiddleware,combineReducers,compose} from 'redux';
+import {Provider} from 'react-redux';
 
-import Dashboard from './pages/Dashboard';
-import Landing from './pages/Landing';
-import Layout from './pages/Layout';
-import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp';
-import ProfileSetUp from './pages/ProfileSetUp';
+
+import AppContainer from './pages/AppContainer';
+
+
+const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__  });
+
+function configureStore(initialState){
+	const enhancer = compose(
+		applyMiddleware(
+			thunkMiddleware,
+			loggerMiddleware
+		)
+	);
+	return createStore(reducer,initialState,enhancer);
+}
+
+const store = configureStore({});
+
 
 const app = document.getElementById("app");
-console.log(app);
 
 ReactDOM.render(
-		<BrowserRouter>
-			<Layout>
-				<Switch>
-				<Route exact path="/" component={Landing}></Route>
-				<Route path="/sign_up" component={SignUp}></Route>
-				<Route path="/sign_in" component={SignIn}></Route>
-				<Route path="/profile_set_up" component={ProfileSetUp}></Route>
-				<Route path="/dashboard" component={Dashboard}></Route>
-			</Switch>
-			</Layout>
-		</BrowserRouter>
+		<Provider store={store}>
+			<AppContainer></AppContainer>
+		</Provider>
 ,app);
 
 
