@@ -6,11 +6,10 @@ import {createLogger} from 'redux-logger';
 import {createStore,applyMiddleware,combineReducers,compose} from 'redux';
 import {Provider} from 'react-redux';
 
-
 import AppContainer from './pages/AppContainer';
 
 
-const loggerMiddleware = createLogger({ predicate: (getState, action) => __DEV__  });
+const loggerMiddleware = createLogger();
 
 function configureStore(initialState){
 	const enhancer = compose(

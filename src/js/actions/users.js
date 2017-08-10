@@ -1,10 +1,27 @@
 export function createNewUser(user){
-	const {firstName,lastName,email,password} = user;
-	return {
-		type: "CREATE_NEW_USER",
-		firstName,
-		lastName,
-		email,
-		password
+	return (dispatch,getState)=>{
+		const {firebaseRef} = getState();
+		const {firstName,lastName,email,password} = user;
+
+		firebaseRef.auth().createUserWithEmailAndPassword(email,password)
+		.then(user => {
+			firebaseRef.database().ref(`attendees/${user.uid}`).set({
+				email,
+				name:`${firstName} ${lastName}`,
+				firstName,
+				lastName
+			}, error => {
+				if(error){
+					console.log(error);
+				}else{
+					console.log("Successfully creating new user");
+					dispatch({
+						type:"SIGNUP_SUCCESS",
+						activeUser:user
+					});
+				}
+			})
+		});
 	}
+	
 }
