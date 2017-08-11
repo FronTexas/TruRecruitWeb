@@ -1,63 +1,94 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 
-export default class ProfileSetUp extends React.Component{
+import _ from 'underscore';
+import month from 'month';
+import us from 'us';	
+
+import Select from '../components/Select';
+
+class ProfileSetUp extends React.Component{
+	constructor(props){
+		super(props);
+		this.state = {
+		};
+	}
+
+	handleInputChange(event){
+		var target = event.target;
+		var name = target.name;
+		var value = target.value;
+
+		this.setState({
+			[name]:value
+		});	
+		window.state = this.state;
+	}
+
+	handleSaveClick(event){
+		this.props.updateUserProfile(this.state);
+	}
+
 	render(){
+		const months = _.map(_.range(1,12),(i)=>{return month(i)});
 		return (
 			<div class="col s12 tr-gray center-horizontal">
 				<div class="card large card-width-medium setup-profile-card">
 					<p class="tr-green-text" id="set-up-profile-text">Set up your profile</p>
-					<form action="<?php echo $script?>" method="post">
+					<form method="post">
 						<p>Summary</p>
-						<input type="text" name="summary" id="" cols="70" rows="2" placeholder="Graduating December 2017 from UT Austin" maxLength="140" required="required"></input>
+						<input value={this.state.summary} onChange={this.handleInputChange.bind(this)} type="text" name="summary" id="" cols="70" rows="2" placeholder="Graduating December 2017 from UT Austin" maxLength="140" required="required"></input>
 
 						<p>Education</p>
 
 						<label for="school">School</label>
 						
-						<input type="text" name="school[name]" id="" cols="70" rows="1" placeholder="School you go to" maxLength="140" required="required"></input>
+						<input value={this.state.school_name} onChange={this.handleInputChange.bind(this)} type="text" name="school_name" id="" cols="70" rows="1" placeholder="School you go to" maxLength="140" required="required"></input>
 
 						<label for="school_date">Dates Attended</label>
+						<br/>
 						<div class="input-field col s12 m6">
-							<select name="school[begin_school_year]" class="years" value="2017"></select>
+							<Select options= {_.range(1990,2018)} defaultValue={2017} value={this.state.school_begin_school_year} onChangeHandler={this.handleInputChange.bind(this)} name="school_begin_school_year" class="years">
+							</Select>
 						</div>
 						<div class="input-field col s12 m6">
-							<select name="school[end_school_year]" class="years" value="2017"></select>
+							<Select options = {_.range(1990,2030)} defaultValue={2017} value={this.state.school_begin_school_year} onChange={this.handleInputChange.bind(this)} name="school_end_school_year" class="years" value="2017"></Select>
 						</div>
 
 						<label for="degree">Degree</label>
-						<input type="text" name="school[degree]" id="" cols="70" rows="1" placeholder="Degree" maxLength="140" required="required" class="materialize-input" type="text">
+						<input value={this.state.school_degree} onChange={this.handleInputChange.bind(this)} type="text" name="school_degree" id="" cols="70" rows="1" placeholder="Degree" maxLength="140" required="required" class="materialize-input" type="text">
 						</input>
 
 						<label for="area_of_study">Area of Study</label>
-						<input type="text" name="school[area_of_study]" id="" cols="70" rows="1" placeholder="Area of Study" maxLength="140" required="required">
+						<input value={this.state.school_area_of_study} onChange={this.handleInputChange.bind(this)} type="text" name="school_area_of_study" id="" cols="70" rows="1" placeholder="Area of Study" maxLength="140" required="required">
 						</input>
 
 						<p>Employment History</p>
 
 						<label for="company">Company</label>
-						<input type="text" name="company[name]" id="" cols="70" rows="1" required="required">
+						<input value={this.state.company_name} onChange={this.handleInputChange.bind(this)}  type="text" name="company_name" id="" cols="70" rows="1" required="required">
 						</input>
 
 						<label for="title">Title</label>
-						<input type="text" name="company[title]" id="" cols="70" rows="1" required="required">
+						<input value={this.state.company_title} onChange={this.handleInputChange.bind(this)} type="text" name="company_title" id="" cols="70" rows="1" required="required">
 						</input>
 
 						<label for="employment_date">Dates Attended</label>
-						<select name="company[begin_month_employment]" class="months"></select>
-						<select name="company[begin_year_employment]" class="years" value="2017"></select>
-						<select name="company[end_month_employment]" class="months"></select>
-						<select name="company[end_year_employment]" class="years" value="2017"></select>
+						<Select options = {months} value={this.state.company_begin_month_employment} onChange={this.handleInputChange.bind(this)} name="company_begin_month_employment" class="months"></Select>
+						<Select options = {_.range(1990,2018)} selected={2017} value={this.state.company_begin_year_employment} onChange={this.handleInputChange.bind(this)} name="company_begin_year_employment" class="years"></Select>
+						<Select options = {months}  value={this.state.company_end_month_employment} onChange={this.handleInputChange.bind(this)} name="company_end_month_employment" class="months"></Select>
+						<Select options = {_.range(1990,2018)} selected={2017} value={this.state.company_end_year_employment} onChange={this.handleInputChange.bind(this)} name="company_end_year_employment" class="years"></Select>
 
-						<label for="Location">Location</label>
-						<input type="text" name="company[employment_city]" id="" cols="30" rows="1" placeholder="City" required="required">
+						<label>Location</label>
+						<input value={this.state.company_employment_city} onChange={this.handleInputChange.bind(this)} type="text" name="company_employment_city" id="" cols="30" rows="1" placeholder="City" required="required">
 						</input>
-						<select name="company[employment_state]" id="employment_state">
+						<Select options={_.map(us.mapping('fips','name'),(name,fips) => {return name}).sort()} value={this.state.company_employment_state} onChange={this.handleInputChange.bind(this)} name="company_employment_state" id="employment_state">
 							
-						</select>
+						</Select>
 
 						<p>Portfolio Link</p>
-						<input type="text" name="portfolio_link" id="" cols="30" rows="1" placeholder="link to portfolio">
+						<input value={this.state.portfolio_link} onChange={this.handleInputChange.bind(this)} type="text" name="portfolio_link" id="" cols="30" rows="1" placeholder="link to portfolio">
 						</input>
 
 						<p>Upload Resume</p>
@@ -72,10 +103,16 @@ export default class ProfileSetUp extends React.Component{
 					      </div>
 					    </div>
 
-						<Link to="dashboard" class="waves-effect waves-light btn tr-green">Save</Link>
+						<button type="button" class="waves-effect waves-light btn tr-green" onClick={this.handleSaveClick.bind(this)}>Save</button>
 					</form>
 				</div>
 			</div>
 		)
 	}
 }
+
+function mapStateToProps(state){
+	return {}
+}
+
+export default connect(mapStateToProps)(ProfileSetUp);

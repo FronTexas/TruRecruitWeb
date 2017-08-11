@@ -25,3 +25,18 @@ export function createNewUser(user){
 	}
 	
 }
+
+export function updateUserProfile(fields){
+	return (dispatch,getState)=>{
+		const {firebaseRef,activeUser} = getState();
+		firebaseRef.database().ref(`/attendees/${activeUser.uid}/`)
+		.once('value')
+		.then((snap)=>{
+			var user = snap.val();
+			var target = {};
+			object.assign(target,user,fields);
+			window.target = target;
+		})
+	}
+}
+

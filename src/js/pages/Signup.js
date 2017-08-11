@@ -20,8 +20,9 @@ class SignUp extends React.Component{
 	}
 
 	handleSignUpClick(){
-		const {firstName,lastName,email,password} = this.state;
-		this.props.createNewUser({firstName,lastName,email,password});
+		// const {firstName,lastName,email,password} = this.state;
+		// this.props.createNewUser({firstName,lastName,email,password});
+		this.props.push('/profile_set_up');
 	}
 
 	handleInputChange(event){

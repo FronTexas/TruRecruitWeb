@@ -2,9 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import reducer from './reducers';
 import thunkMiddleware from 'redux-thunk';
+
 import {createLogger} from 'redux-logger';
 import {createStore,applyMiddleware,combineReducers,compose} from 'redux';
 import {Provider} from 'react-redux';
+
 
 import AppContainer from './pages/AppContainer';
 
@@ -15,7 +17,7 @@ function configureStore(initialState){
 	const enhancer = compose(
 		applyMiddleware(
 			thunkMiddleware,
-			loggerMiddleware
+			loggerMiddleware,
 		)
 	);
 	return createStore(reducer,initialState,enhancer);
