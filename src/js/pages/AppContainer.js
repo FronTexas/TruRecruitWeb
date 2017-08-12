@@ -1,17 +1,14 @@
+import * as _firebase from '../lib/firebaseWrapper';
+window._firebase = _firebase;
+import history from '../lib/history';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { 
-	Switch, 
-	Route
-} from 'react-router';
-import {
-	BrowserRouter,
-} from 'react-router-dom';
-
 import {ActionCreators} from '../actions';
 import {bindActionCreators} from 'redux';
+import {BrowserRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import history from '../lib/history';
+import {Match,Redirect,Switch,Route} from 'react-router';
+
 
 
 import Dashboard from './Dashboard';
@@ -20,34 +17,62 @@ import Layout from './Layout';
 import ProfileSetUp from './ProfileSetUp';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import UidProvider from '../components/UidProvider';
 
-const firebase = require('firebase');
-
+const RouteWhenAuthorized = ({component:Component,...rest,hoc_props}) => (
+	<Route {...rest} render={props=>(		
+		_firebase.isAuthenticated() ? (
+			<Component {...hoc_props} {...props} ></Component>
+		) : (
+			<Redirect to={{
+				pathname:'/sign_in',
+				state: {from:props.location}
+			}}>
+			</Redirect>
+		)
+	)}></Route>
+);
 
 class AppContainer extends React.Component{
+	static childContextTypes = {
+		uid:React.PropTypes.string
+	}
+
 	constructor(props){
 		super(props);
-		var config = {
-	      apiKey: "AIzaSyCOwfUwf2-GqcacgkBopnwXb8-HG5Km7hY",
-	      authDomain: "trurecruit-dd63b.firebaseapp.com",
-	      databaseURL: "https://trurecruit-dd63b.firebaseio.com",
-	      storageBucket: "trurecruit-dd63b.appspot.com",
-	      messagingSenderId: "117008567602"
-	    };
-	    firebase.initializeApp(config);
-	    this.props.setFirebaseRef(firebase);
+	    this.props.setFirebaseRef(_firebase.firebaseRef);
+	    this.state = {
+	    	uid: null
+	    }
 	}
+
+	componentDidMount(){
+		_firebase.auth.onAuthStateChanged(user=>{
+			if(user){
+				this.props.setActiveUser(user.uid)
+				window.localStorage.setItem(_firebase.storageKey,user.uid);
+				this.setState({uid:user.uid});
+			}else{
+				this.props.setActiveUser(null);
+				window.localStorage.removeItem(_firebase.storageKey);
+				this.setState({uid:null});
+			}
+		})
+	}
+
+	getChildContext(){
+		return {uid:this.state.uid};
+	}
+
 	render(){
 		return (
 			<BrowserRouter history={history}>
 				<Layout>
-					<Switch>
-						<Route exact path="/" render={(props) =><Landing {...this.props} {...props}></Landing>}></Route>
-						<Route path="/sign_up" render={(props) => <SignUp {...this.props} {...props}></SignUp>}></Route>
-						<Route path="/sign_in" render={(props) => <SignIn{...this.props} {...props}></SignIn>}></Route>
-						<Route path="/profile_set_up" render ={(props)=><ProfileSetUp {...this.props} {...props}></ProfileSetUp>}></Route>
-						<Route path="/dashboard" render={(props) => <Dashboard {...this.props} {...props}></Dashboard>}></Route>
-					</Switch>
+					<Route exact path="/" render={(props) =><Landing {...this.props} {...props}></Landing>}></Route>					
+					<Route path="/sign_up" render={(props) => <SignUp {...this.props} {...props}></SignUp>}></Route>
+					<Route path="/sign_in" render={(props) => <SignIn{...this.props} {...props}></SignIn>}></Route>
+					<RouteWhenAuthorized path="/profile_set_up" hoc_props={this.props} component={ProfileSetUp}></RouteWhenAuthorized>
+					<RouteWhenAuthorized path="/dashboard" hoc_props={this.props} component={Dashboard}></RouteWhenAuthorized>
 				</Layout>
 			</BrowserRouter>
 		)

@@ -14,15 +14,13 @@ class SignUp extends React.Component{
 	}
 
 	componentWillReceiveProps(nextProps){
-		const {activeUser} = nextProps;
-		console.log("Signup componentWillReceiveProps",JSON.stringify(activeUser));
+		const {active_user} = nextProps;
 		this.props.push('/profile_set_up');
 	}
 
 	handleSignUpClick(){
-		// const {firstName,lastName,email,password} = this.state;
-		// this.props.createNewUser({firstName,lastName,email,password});
-		this.props.push('/profile_set_up');
+		const {firstName,lastName,email,password} = this.state;
+		this.props.createNewUser({firstName,lastName,email,password});
 	}
 
 	handleInputChange(event){
@@ -67,8 +65,8 @@ class SignUp extends React.Component{
 }
 
 function mapStateToProps(state){
-	const {activeUser} = state;
-	return {activeUser};
+	const {active_user} = state;
+	return {active_user};
 }
 
 export default connect(mapStateToProps)(SignUp);

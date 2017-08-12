@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom';
 import _ from 'underscore';
 import month from 'month';
 import us from 'us';	
+import FileApi from 'fileapi';
 
 import Select from '../components/Select';
 
@@ -12,7 +13,28 @@ class ProfileSetUp extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
+			school_begin_school_year: "2017",
+			school_end_school_year: "2017",
+			company_begin_month_employment:'January',
+			company_begin_year_employment: "2017",
+			company_end_month_employment:'January',
+			company_end_year_employment:"2017",
+			company_employment_state:'Alaska'
 		};
+	}
+
+	componentWillReceiveProps(nextProps){
+		const {upload_file_success,update_user_profile_success} = nextProps;
+		if(upload_file_success && update_user_profile_success){
+			this.props.push('/dashboard');
+		}
+	}
+
+	handleFileUpload(event){
+		const file = event.target.files[0];
+		this.setState({
+			resume: file
+		})
 	}
 
 	handleInputChange(event){
@@ -23,11 +45,13 @@ class ProfileSetUp extends React.Component{
 		this.setState({
 			[name]:value
 		});	
-		window.state = this.state;
 	}
 
 	handleSaveClick(event){
 		this.props.updateUserProfile(this.state);
+		if(this.state.resume){
+			this.props.uploadResume(this.state.resume);
+		}
 	}
 
 	render(){
@@ -49,11 +73,11 @@ class ProfileSetUp extends React.Component{
 						<label for="school_date">Dates Attended</label>
 						<br/>
 						<div class="input-field col s12 m6">
-							<Select options= {_.range(1990,2018)} defaultValue={2017} value={this.state.school_begin_school_year} onChangeHandler={this.handleInputChange.bind(this)} name="school_begin_school_year" class="years">
+							<Select options= {_.range(1990,2018)} defaultValue={2017} value={this.state.school_begin_school_year} onChange={this.handleInputChange.bind(this)} name="school_begin_school_year" class="years">
 							</Select>
 						</div>
 						<div class="input-field col s12 m6">
-							<Select options = {_.range(1990,2030)} defaultValue={2017} value={this.state.school_begin_school_year} onChange={this.handleInputChange.bind(this)} name="school_end_school_year" class="years" value="2017"></Select>
+							<Select options = {_.range(1990,2030)} defaultValue={2017} value={this.state.school_end_school_year} onChange={this.handleInputChange.bind(this)} name="school_end_school_year" class="years" ></Select>
 						</div>
 
 						<label for="degree">Degree</label>
@@ -95,7 +119,7 @@ class ProfileSetUp extends React.Component{
 						<div class="file-field input-field">
 					      <div class="btn tr-green">
 					        <span>File</span>
-					        <input type="file"></input>
+					        <input type="file" onChange={this.handleFileUpload.bind(this)}></input>
 					      </div>
 					      <div class="file-path-wrapper">
 					        <input class="file-path validate" type="text">
@@ -112,7 +136,8 @@ class ProfileSetUp extends React.Component{
 }
 
 function mapStateToProps(state){
-	return {}
+	const {upload_file_success,update_user_profile_success} = state;
+	return {upload_file_success,update_user_profile_success}
 }
 
 export default connect(mapStateToProps)(ProfileSetUp);

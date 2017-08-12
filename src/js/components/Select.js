@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Input} from 'react-materialize';
 
 export default class Select extends Component{
 	render(){
@@ -7,14 +8,17 @@ export default class Select extends Component{
 			options = [];
 		}
 		return(
-			<select {...this.props}>
-				{	
-					options.map((option,index)=>{
-						return <option key={index} value={option}>{option}</option>
-					})
+			<div>
+				<Input type='select' {...this.props}>
+					{	
+						options.map((option,index)=>{
+							return <option key={index} value={option}>{option}</option>
+						})
 
-				}
-			</select>
+					}
+				</Input>
+			</div>
+			
 		)
 	}
 }

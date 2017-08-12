@@ -14,10 +14,9 @@ export function createNewUser(user){
 				if(error){
 					console.log(error);
 				}else{
-					console.log("Successfully creating new user");
 					dispatch({
 						type:"SIGNUP_SUCCESS",
-						activeUser:user
+						active_user:user.uid
 					});
 				}
 			})
@@ -26,16 +25,49 @@ export function createNewUser(user){
 	
 }
 
+export function setActiveUser(uid){
+	return (dispatch,getState)=>{
+		dispatch({
+			type:"SET_ACTIVE_USER",
+			uid
+		});
+	}
+}
+
 export function updateUserProfile(fields){
 	return (dispatch,getState)=>{
-		const {firebaseRef,activeUser} = getState();
-		firebaseRef.database().ref(`/attendees/${activeUser.uid}/`)
+		const {firebaseRef,active_user} = getState();
+		firebaseRef
+		.database()
+		.ref(`attendees/${active_user}`)
 		.once('value')
 		.then((snap)=>{
 			var user = snap.val();
 			var target = {};
-			object.assign(target,user,fields);
-			window.target = target;
+			Object.assign(target,user,fields);
+			var updates = {};
+			updates['/attendees/'
+			+ active_user] = target;
+			firebaseRef.database().ref().update(updates).then(()=>{
+				dispatch({
+					type:"UPDATE_USER_PROFILE_SUCCESS"
+				})
+			});
+		})
+	}
+}
+
+export function uploadResume(file){
+	return (dispatch,getState)=>{
+		console.log('In Upload Resume');
+		const {firebaseRef,active_user} = getState();
+		var storageRef = firebaseRef.storage().ref();
+		var active_userStorageRef = storageRef.child(`attendees/${active_user}/resume.pdf`);
+
+		active_userStorageRef.put(file).then((snap)=>{
+			dispatch({
+				type:"FILE_UPLOAD_SUCCESS"
+			})
 		})
 	}
 }
