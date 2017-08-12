@@ -10,6 +10,12 @@ export const active_user = createReducer(null,{
 	}
 })
 
+export const active_user_profile = createReducer(null,{
+	["FETCH_ACTIVE_USER_DONE"](state,action){
+		return action.active_user_profile
+	}
+})
+
 export const update_user_profile_success = createReducer(false,{
 	["UPDATE_USER_PROFILE_SUCCESS"](state,action){
 		return true;
@@ -18,6 +24,13 @@ export const update_user_profile_success = createReducer(false,{
 		return false;
 	}
 })
+
+export const resume_url = createReducer(null,{
+	["FETCH_ACTIVE_USER_RESUME_URL_DONE"](state,action){
+		return action.resume_url;
+	}
+})
+
 
 
 export const upload_file_success = createReducer(false,{
@@ -28,4 +41,5 @@ export const upload_file_success = createReducer(false,{
 		return false;
 	}
 })
+
 

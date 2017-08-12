@@ -25,6 +25,40 @@ export function createNewUser(user){
 	
 }
 
+export function fetchActiveUserProfile(uid){
+	return (dispatch,getState) => {
+		const {firebaseRef} = getState();
+		const uid = window.localStorage.getItem('uid');		
+		firebaseRef
+		.database()
+		.ref(`attendees/${uid}`)
+		.once('value')
+		.then(snap=>{
+			var active_user_profile = snap.val();
+			active_user_profile.uid = uid;
+			dispatch({
+				type:"FETCH_ACTIVE_USER_DONE",
+				active_user_profile
+			})
+		})
+	}
+}
+
+export function fetchActiveUserResumeURL(){
+	return (dispatch,getState)=>{
+		const {firebaseRef} = getState();
+		const uid = window.localStorage.getItem('uid');		
+
+		const resume_ref = firebaseRef.storage().ref().child(`attendees/${uid}/resume.pdf`);
+		resume_ref.getDownloadURL().then((resume_url)=>{
+			dispatch({
+				type:"FETCH_ACTIVE_USER_RESUME_URL_DONE",
+				resume_url
+			})
+		});
+	}
+}
+
 export function setActiveUser(uid){
 	return (dispatch,getState)=>{
 		dispatch({

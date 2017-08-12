@@ -50,11 +50,11 @@ class AppContainer extends React.Component{
 		_firebase.auth.onAuthStateChanged(user=>{
 			if(user){
 				this.props.setActiveUser(user.uid)
-				window.localStorage.setItem(_firebase.storageKey,user.uid);
+				window.localStorage.setItem('uid',user.uid);
 				this.setState({uid:user.uid});
 			}else{
 				this.props.setActiveUser(null);
-				window.localStorage.removeItem(_firebase.storageKey);
+				window.localStorage.removeItem('uid');
 				this.setState({uid:null});
 			}
 		})

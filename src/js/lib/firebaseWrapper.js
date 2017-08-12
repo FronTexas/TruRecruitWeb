@@ -15,8 +15,7 @@ export const firebaseRef = firebase.initializeApp(config);
 export const db = firebaseRef.database(); //the real-time database
 export const auth = firebaseRef.auth(); //the firebase auth namespace
 
-export const storageKey = 'KEY_FOR_LOCAL_STORAGE';
 
 export const isAuthenticated = () => {
-  return !!auth.currentUser || !!localStorage.getItem(storageKey);
+  return !!auth.currentUser || !!localStorage.getItem('uid');
 }
