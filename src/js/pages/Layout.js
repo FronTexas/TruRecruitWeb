@@ -6,12 +6,10 @@ import Nav from '../components/layout/Nav';
 export default class Layout extends React.Component{
 	render(){
 		return(
-				<div>
+				<div class="tr-gray main-container">
 					<Nav></Nav>
-					<div className="row">
-						<div className="col s12">
-							{this.props.children}
-						</div>
+					<div className="col s12">
+						{this.props.children}
 					</div>
 				</div>
 		)

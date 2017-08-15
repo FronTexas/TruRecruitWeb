@@ -11,7 +11,7 @@ export default class SignIn extends React.Component{
 				</div>
 				<div class="col s12 center-horizontal-vertical">
 				
-				<div class="card large signup-form-box">
+				<div class="card large form-box form-box-sign-up">
 					<form method="post">
 						<label for="email">Email</label>
 						<input type="email" name="email" required="required"/>

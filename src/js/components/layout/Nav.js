@@ -10,21 +10,25 @@ export default class Nav extends React.Component{
 	}
 	render(){
 		return(
-			<div className="row">
-				<div class="col s12 nav tr-dark-blue">
-					<div class="col s4 h50 valign-wrapper">
-						<a href="./index.html" class="valign-wrapper">
-						<span><img src={require("../../imgs/icon.png")} alt="" width="30px"></img></span>
-						<span class="trurecruit-text-logo white-text">Tru<b>Recruit</b></span>
-						</a>
+			<nav>
+				<div className="nav-wrapper">
+					<div class="brand-logo">
+						<Link to="/" class="nav-logo" href="./">
+							<span><img class="nav-tr-icon" src={require("../../imgs/icon.png")}></img></span>
+							<span class="trurecruit-text-logo white-text">Tru<b>Recruit</b></span>
+						</Link>
 					</div>
-					<div class="col s4"></div>
-					<div class="col s4 h50 right-align">
-                		<Link class="waves-effect waves-light btn tr-green mt10" to="sign_up">Sign Up</Link>
-                		<Link class="waves-effect waves-light btn tr-green mt10" to="sign_in">Sign In</Link>
-					</div>
+					<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+					<ul className="right hide-on-med-and-down">
+						<li><Link class="waves-effect waves-light btn tr-green" to="sign_up">Sign Up</Link></li>	
+				        <li><Link class="waves-effect waves-light btn tr-green mt10" to="sign_in">Sign In</Link></li>
+					</ul>
+					<ul className="side-nav" id="mobile-demo">
+						<li><Link class="waves-effect waves-light btn tr-green" to="sign_up">Sign Up</Link></li>	
+				        <li><Link class="waves-effect waves-light btn tr-green mt10" to="sign_in">Sign In</Link></li>
+					</ul>
 				</div>
-			</div>
+			</nav>
 		)
 	}
 }

@@ -37,11 +37,11 @@ class SignUp extends React.Component{
 		return (
 			<div>
 				<div class="col s12">
-					<p class="p-medium center-align">Create your TruRecruit Account.</p>
+					<p class="p-medium center-align text-create-tr-account" data-reactid=".0.1.1.0.0">Create your TruRecruit Account.</p>
 				</div>
 				<div class="col s12 center-horizontal-vertical">
 				
-				<div class="card large signup-form-box">
+				<div class="card large form-box form-box-sign-up">
 						<label for="firstName">First Name</label>
 						<input type="text" name="firstName" required="required" value={this.state.firstName} onChange={this.handleInputChange.bind(this)}/>
 

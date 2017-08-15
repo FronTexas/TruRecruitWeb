@@ -5,7 +5,6 @@ import {Link} from 'react-router-dom';
 import _ from 'underscore';
 import month from 'month';
 import us from 'us';	
-import FileApi from 'fileapi';
 
 import Select from '../components/Select';
 
@@ -58,7 +57,7 @@ class ProfileSetUp extends React.Component{
 		const months = _.map(_.range(1,12),(i)=>{return month(i)});
 		return (
 			<div class="col s12 tr-gray center-horizontal">
-				<div class="card large card-width-medium setup-profile-card">
+				<div class="card large card-width-medium form-box form-box-profile-set-up">
 					<p class="tr-green-text" id="set-up-profile-text">Set up your profile</p>
 					<form method="post">
 						<p>Summary</p>
