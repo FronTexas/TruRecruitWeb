@@ -14,8 +14,12 @@ class SignUp extends React.Component{
 	}
 
 	componentWillReceiveProps(nextProps){
-		const {active_user} = nextProps;
-		this.props.push('/profile_set_up');
+		const {active_user,signed_up_done} = nextProps;
+		if(active_user != null && signed_up_done){
+			this.props.push('/profile_set_up');
+		}else{
+			this.props.push('/dashboard');
+		}
 	}
 
 	handleSignUpClick(){

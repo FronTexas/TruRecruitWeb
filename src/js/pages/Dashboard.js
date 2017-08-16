@@ -92,7 +92,7 @@ class Dashboard extends React.Component{
 			            <div className="col l8">
 			            	<div class="resume-container">
 		               		  	<div className="row">
-			               		  	<div className="col s6">
+			               		  	<div className="col s6 resume-preview-container">
 				               		  	<div class="resume-preview hvr-shadow">
 					                  		<a href={this.state.resume_url ? this.state.resume_url : "#"}>
 					                  		<ReactPDF
@@ -103,7 +103,7 @@ class Dashboard extends React.Component{
 						                  </a>
 				                  		</div>
 			               		  	</div>
-			               		  	<div className="col s6">
+			               		  	<div className="col s6 resume-preview-container">
 				               		  	<div>
 				                     		<div>
 				                        		<span class="qr-code-explaination">Your Resume QR Code</span>

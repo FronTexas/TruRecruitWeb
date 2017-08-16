@@ -39,7 +39,7 @@ export default class Landing extends React.Component{
 					</div>
 				</div>
 		
-				<div class="container-fluid ">
+				<div class="container-fluid landing-footer">
 					<div class="row">
 						<div class="col s2"><p><b>TruRecruit 2017</b></p></div>
 						<div class="col s1"><p><a href="./contact.html"><b>Contact Us</b></a></p></div>
