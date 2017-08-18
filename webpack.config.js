@@ -3,9 +3,9 @@ var webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
-  entry: "./src/js/client.js",
+  entry: "./js/client.js",
   output: {
-    path: __dirname + "/src/",
+    path: __dirname,
     filename: "client.min.js"
   },
   module: {
