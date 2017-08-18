@@ -59,6 +59,23 @@ export function fetchActiveUserResumeURL(){
 	}
 }
 
+export function fetchRecruiterWhoScannedYou(){
+	return (dispatch,getState)=>{
+		const {firebaseRef} = getState();
+		const uid = window.localStorage.getItem('uid');
+		firebaseRef
+		.database()
+		.ref(`attendees/${uid}/recruiter_who_scanned_you`)
+		.on('value',(snap)=>{
+			const recruiter_who_scanned_you = snap.val();
+			dispatch({
+				type:"RECRUITER_WHO_SCANNED_YOU_UPDATED",
+				recruiter_who_scanned_you
+			})
+		})
+	}
+}
+
 export function setActiveUser(uid){
 	return (dispatch,getState)=>{
 		dispatch({

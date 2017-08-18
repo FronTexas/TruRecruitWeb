@@ -25,13 +25,17 @@ export const update_user_profile_success = createReducer(false,{
 	}
 })
 
+export const recruiter_who_scanned_you = createReducer([],{
+	["RECRUITER_WHO_SCANNED_YOU_UPDATED"](state,action){
+		return action.recruiter_who_scanned_you;
+	}
+})
+
 export const resume_url = createReducer(null,{
 	["FETCH_ACTIVE_USER_RESUME_URL_DONE"](state,action){
 		return action.resume_url;
 	}
 })
-
-
 
 export const upload_file_success = createReducer(false,{
 	["FILE_UPLOAD_SUCCESS"](state,action){

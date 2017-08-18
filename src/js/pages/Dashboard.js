@@ -4,6 +4,8 @@ import React from 'react';
 import ReactPDF from 'react-pdf/build/entry.webpack';
 
 
+import RecruiterActivity from '../components/RecruiterActivity';
+
 class SpanBrWrapper extends React.Component{
 	render() {return(
 			<div>
@@ -35,15 +37,14 @@ class Dashboard extends React.Component{
 	}
 
 	render(){
-		console.log(`resume_url = ${this.state.resume_url}`);
 		if(this.state.active_user_profile){
 			return ( 
- 				<div className="container dashboard-container">
+ 				<div className="dashboard-container">
 		            <div className="row">
-		            	<div className="col l4 container personal-information-box-container">
+		            	<div className="col l3 container personal-information-box-container">
 				            <div class="personal-information-box hvr-shadow">
 	    		               <div class="user-information">
-	    		                  <img src="http://www.radfaces.com/images/avatars/alan-frog.jpg" alt="" class="profpic"></img>
+	    		                  <img src="http://www.radfaces.com/images/avatars/alan-frog.jpg" alt="" class="profpic large"></img>
 	    		                  <div class="name-description-container">
 	    		                     <span class="name">{this.state.active_user_profile.name}</span>
 	    		                     <snap class="description">{this.state.active_user_profile.summary}</snap>
@@ -89,7 +90,60 @@ class Dashboard extends React.Component{
 	    		               </div>
 				            </div>
 			            </div>
-			            <div className="col l8">
+			            <div className="col l6">
+			            	{<RecruiterActivity {...this.props}></RecruiterActivity>}
+			            </div>
+			            <div className="col l3 resume-container">
+	                  		<a href={this.state.resume_url ? this.state.resume_url : "#"}>
+			            		<div className="resume-preview hvr-shadow">
+			            			<div className="center-align">
+		                        		<p class="qr-code-explaination tr-green-text">Your Resume QR Code</p>
+		                        		<img class="qr-code" src={`https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${this.state.active_user_profile.uid}&color=00BC96&bgcolor=FFFFFF`} alt=""></img>
+		                        		<br/>
+		                        		<span class="tr-blue-text">Main Resume.pdf</span>
+		                     		</div>
+			            		</div>
+			            	</a>
+			            	<div class="print-or-share-area">
+			                    <div class="printshare-container">
+		                            <div class="download-resume printshare-button hvr-shadow">
+		                              <i class="fa fa-file-pdf-o"></i>
+		                              <span>Print a Resume With the QR Code</span>
+		                            </div>
+			                    </div>
+		                        <div class="printshare-container">
+		                           <div class="download-name-tag printshare-button hvr-shadow">
+		                              <i class="fa fa-list-alt"></i>
+		                              <span>Print a Name Tag With the QR Code</span>
+		                           </div>
+		                        </div>
+		                        <div class="printshare-container">
+		                           <div class="email-qr-code printshare-button hvr-shadow">
+		                              <i class="fa fa-envelope"></i>
+		                              <span>Email the QR Code</span>
+		                           </div>
+		                        </div>
+		                        <div class="printshare-container">
+		                           <div class="save-qr-code printshare-button hvr-shadow">
+		                              <i class="fa fa-floppy-o"></i>
+		                              <span>Save the QR Code</span>
+		                           </div>
+		                        </div>
+                    		</div>
+			            </div>
+		            </div>
+         		</div>
+      		)
+		}else{
+			return (<div><h1>Loading</h1></div>)
+		}
+		
+	}
+}
+
+function mapStateToProps(state){
+	 /*
+			            <div className="col l3">
 			            	<div class="resume-container">
 		               		  	<div className="row">
 			               		  	<div className="col s6 resume-preview-container">
@@ -139,18 +193,7 @@ class Dashboard extends React.Component{
 			               		  	</div>
 		               		  	</div>
 				            </div>
-			            </div>
-		            </div>
-         		</div>
-      		)
-		}else{
-			return (<div><h1>Loading</h1></div>)
-		}
-		
-	}
-}
-
-function mapStateToProps(state){
+			            </div>*/
 	const {active_user_profile,resume_url} = state;
 	return {active_user_profile,resume_url};
 }
