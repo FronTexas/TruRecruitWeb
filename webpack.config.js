@@ -3,14 +3,11 @@ var webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
-  context: path.join(__dirname, "src"),
-  devtool: debug ? "inline-sourcemap" : false,
-  devServer: {
-    historyApiFallback: true,
-    contentBase: './',
-    hot: true
+  entry: "./src/js/client.js",
+  output: {
+    path: __dirname + "/src/",
+    filename: "client.min.js"
   },
-  entry: "./js/client.js",
   module: {
     loaders: [
       {
@@ -28,13 +25,19 @@ module.exports = {
       }
     ]
   },
-  output: {
-    path: __dirname + "/src/",
-    filename: "client.min.js"
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
+  context: path.join(__dirname, "src"),
+  devtool: debug ? "inline-sourcemap" : false,
+  devServer: {
+    historyApiFallback: true,
+    contentBase: './',
+    hot: true
   },
   plugins: debug ? [] : [
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
-  ],
+  ]
 };
