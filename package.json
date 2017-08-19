@@ -5,7 +5,7 @@
   "main": "webpack.config.js",
   "scripts": {
     "dev": "webpack-dev-server --content-base src --inline --hot",
-    "start":"node server.js",
+    "start": "node server.js",
     "heroku-postbuild": "webpack -p --config ./webpack.config.js --progress"
   },
   "author": "",
@@ -25,6 +25,7 @@
     "firebase": "^4.2.0",
     "flux": "^3.1.3",
     "history": "^4.6.3",
+    "loader-utils": "^1.1.0",
     "month": "^2.0.1",
     "react": "^0.14.9",
     "react-clipboard": "^1.3.1",
