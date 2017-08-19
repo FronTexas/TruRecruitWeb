@@ -16,7 +16,7 @@ import Landing from './Landing';
 import Layout from './Layout';
 import ProfileSetUp from './ProfileSetUp';
 import SignIn from './SignIn';
-import SignUp from './SignUp';
+import SignUp from './Signup';
 import UidProvider from '../components/UidProvider';
 
 const RouteWhenAuthorized = ({component:Component,...rest,hoc_props}) => (
