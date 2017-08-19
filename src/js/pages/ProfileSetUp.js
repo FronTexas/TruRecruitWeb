@@ -124,9 +124,6 @@ class ProfileSetUp extends React.Component{
 						<p>Portfolio Link</p>
 						<input value={this.state.portfolio_link} onChange={this.handleInputChange.bind(this)} type="text" name="portfolio_link" id="" cols="30" rows="1" placeholder="link to portfolio">
 						</input>
-
-						
-
 						<button type="button" class="waves-effect waves-light btn tr-green" onClick={this.handleSaveClick.bind(this)}>Save</button>
 					</form>
 				</div>

@@ -105,6 +105,14 @@ class Dashboard extends React.Component{
 			            		</div>
 			            	</a>
 			            	<div class="print-or-share-area">
+			            		<div class="printshare-container">
+		                           <a class="save-qr-code printshare-button hvr-shadow"
+		                           	  href={`https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${this.state.active_user_profile.uid}&color=00BC96&bgcolor=FFFFFF`} 
+		                           	  download={`${this.state.active_user_profile.name}_qr_code`}>
+		                              <i class="fa fa-floppy-o"></i>
+		                              <span>Save the QR Code</span>
+		                           </a>
+		                        </div>
 			                    <div class="printshare-container">
 		                            <div class="download-resume printshare-button hvr-shadow">
 		                              <i class="fa fa-file-pdf-o"></i>
@@ -121,12 +129,6 @@ class Dashboard extends React.Component{
 		                           <div class="email-qr-code printshare-button hvr-shadow">
 		                              <i class="fa fa-envelope"></i>
 		                              <span>Email the QR Code</span>
-		                           </div>
-		                        </div>
-		                        <div class="printshare-container">
-		                           <div class="save-qr-code printshare-button hvr-shadow">
-		                              <i class="fa fa-floppy-o"></i>
-		                              <span>Save the QR Code</span>
 		                           </div>
 		                        </div>
                     		</div>
