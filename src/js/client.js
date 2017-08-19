@@ -28,6 +28,10 @@ const store = configureStore({});
 
 const app = document.getElementById("app");
 
-ReactDOM.render((<Provider store={store}><AppContainer></AppContainer></Provider>),app);
+ReactDOM.render(
+		<Provider store={store}>
+			<AppContainer></AppContainer>
+		</Provider>
+,app);
 
 
