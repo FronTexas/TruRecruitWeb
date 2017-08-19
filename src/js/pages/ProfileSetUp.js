@@ -47,6 +47,7 @@ class ProfileSetUp extends React.Component{
 	}
 
 	handleSaveClick(event){
+		console.log(this.state);
 		this.props.updateUserProfile(this.state);
 		if(this.state.resume){
 			this.props.uploadResume(this.state.resume);

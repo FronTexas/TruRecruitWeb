@@ -74,8 +74,8 @@ class Dashboard extends React.Component{
 	    			                <SpanBrWrapper class="gray-text">
 	    			                  {this.state.active_user_profile.company_begin_month_employment + " "} 
 	    			                  {this.state.active_user_profile.company_begin_year_employment + " - "}  
-	    			                  {this.state.active_user_profile.company_begin_month_employment + " "} 
-	    			                  {this.state.active_user_profile.company_begin_year_employment}</SpanBrWrapper>      
+	    			                  {this.state.active_user_profile.company_end_month_employment + " "} 
+	    			                  {this.state.active_user_profile.company_end_year_employment}</SpanBrWrapper>      
 	    			                  
 	    
 	    			                  <SpanBrWrapper  class="gray-text">
