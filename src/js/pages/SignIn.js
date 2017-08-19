@@ -1,8 +1,34 @@
+import {connect} from 'react-redux';
 import React from 'react';
 import {Link} from 'react-router-dom';
 
 
-export default class SignIn extends React.Component{
+class SignIn extends React.Component{
+
+	constructor(props){
+		super(props);
+		this.state={}
+	}
+
+	componentWillReceiveProps(nextProps){
+		const {active_user} = nextProps;
+		if(active_user != null){
+			this.props.push('/dashboard');
+		}
+	}
+
+	handleSignInClick(e){
+		this.props.signIn(this.state.email,this.state.password);
+	}
+
+	handleInputChange(e){
+		const {target} = e;
+		const {name,value} = target;
+		this.setState({
+			[name]:value
+		});
+	}
+
 	render(){
 		return (
 			<div>
@@ -12,18 +38,26 @@ export default class SignIn extends React.Component{
 				<div class="col s12 center-horizontal-vertical">
 				
 				<div class="card large form-box form-box-sign-up">
-					<form method="post">
-						<label for="email">Email</label>
-						<input type="email" name="email" required="required"/>
+					<label for="email">Email</label>
+					<input type="email" name="email" required="required" onChange={this.handleInputChange.bind(this)}/>
 
-						<label for="password">Password</label>
-						<input type="password" name="password" id="password" required="required"/>
-						
-						<Link to="profile_set_up" class="waves-effect waves-light btn tr-green">Sign In</Link>
-					</form>
+					<label for="password">Password</label>
+					<input type="password" name="password" id="password" required="required" onChange={this.handleInputChange.bind(this)}/>
+					
+					<button 
+						class="waves-effect waves-light btn tr-green"
+						onClick={this.handleSignInClick.bind(this)}
+					>Sign In</button>
 				</div>
 			</div>
 		</div>
 		)
 	}
 }
+
+function mapsStateToProps(state){
+	const {active_user} = state;
+	return {active_user}
+}
+
+export default connect(mapsStateToProps)(SignIn);

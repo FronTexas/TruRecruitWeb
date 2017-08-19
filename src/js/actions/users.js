@@ -86,6 +86,21 @@ export function setActiveUser(uid){
 	}
 }
 
+export function signIn(email,password){
+	console.log(`email=${email},password${password}`);
+	return (dispatch,getState)=>{
+		const {firebaseRef} = getState();
+		firebaseRef.auth()
+		.signInWithEmailAndPassword(email,password)
+		.catch(error=>{
+			// NOTE: this will trigger onAuthChange, which in turn will trigger setActiveUser
+			if(error){
+				console.log(error);
+			}
+		})
+	}
+}
+
 export function updateUserProfile(fields){
 	return (dispatch,getState)=>{
 		const {firebaseRef,active_user} = getState();

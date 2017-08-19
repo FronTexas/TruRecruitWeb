@@ -16,7 +16,6 @@ class SignUp extends React.Component{
 
 	componentWillReceiveProps(nextProps){
 		const {active_user,sign_up_just_finished} = nextProps;
-		console.log(`in SignUp componentWillReceiveProps, active_user=${active_user}, sign_up_just_finished=${sign_up_just_finished}`);
 		if(active_user != null && this.state.sign_up_button_got_clicked){
 			this.props.push('/profile_set_up');
 		}else if(active_user != null){
