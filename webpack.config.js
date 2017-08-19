@@ -21,6 +21,10 @@ module.exports = {
           presets: ['react', 'es2015', 'stage-0'],
           plugins: ['react-html-attrs', 'transform-decorators-legacy', 'transform-class-properties'],
         }
+      },
+      { 
+        test: /\.(png|jpg)$/, 
+        loader: 'url-loader?limit=8192' 
       }
     ]
   },
