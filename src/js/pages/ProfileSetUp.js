@@ -60,6 +60,17 @@ class ProfileSetUp extends React.Component{
 				<div class="card large card-width-medium form-box form-box-profile-set-up">
 					<p class="tr-green-text" id="set-up-profile-text">Set up your profile</p>
 					<form method="post">
+						<p>Upload Resume</p>
+						<div class="file-field input-field">
+					      <div class="btn tr-green">
+					        <span>File</span>
+					        <input type="file" onChange={this.handleFileUpload.bind(this)}></input>
+					      </div>
+					      <div class="file-path-wrapper">
+					        <input class="file-path validate" type="text">
+					        </input>
+					      </div>
+					    </div>
 						<p>Summary</p>
 						<input value={this.state.summary} onChange={this.handleInputChange.bind(this)} type="text" name="summary" id="" cols="70" rows="2" placeholder="Graduating December 2017 from UT Austin" maxLength="140" required="required"></input>
 
@@ -114,17 +125,7 @@ class ProfileSetUp extends React.Component{
 						<input value={this.state.portfolio_link} onChange={this.handleInputChange.bind(this)} type="text" name="portfolio_link" id="" cols="30" rows="1" placeholder="link to portfolio">
 						</input>
 
-						<p>Upload Resume</p>
-						<div class="file-field input-field">
-					      <div class="btn tr-green">
-					        <span>File</span>
-					        <input type="file" onChange={this.handleFileUpload.bind(this)}></input>
-					      </div>
-					      <div class="file-path-wrapper">
-					        <input class="file-path validate" type="text">
-					        </input>
-					      </div>
-					    </div>
+						
 
 						<button type="button" class="waves-effect waves-light btn tr-green" onClick={this.handleSaveClick.bind(this)}>Save</button>
 					</form>
