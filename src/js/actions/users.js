@@ -34,6 +34,7 @@ export function fetchActiveUserProfile(uid){
 		.ref(`attendees/${uid}`)
 		.once('value')
 		.then(snap=>{
+			if (!snap.val()) return
 			var active_user_profile = snap.val();
 			active_user_profile.uid = uid;
 			dispatch({

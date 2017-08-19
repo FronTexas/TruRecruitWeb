@@ -19,9 +19,11 @@ import SignIn from './SignIn';
 import SignUp from './Signup';
 import UidProvider from '../components/UidProvider';
 
+const currently_not_need_this_check = false;
+
 const RouteWhenAuthorized = ({component:Component,...rest,hoc_props}) => (
 	<Route {...rest} render={props=>(		
-		_firebase.isAuthenticated() ? (
+		_firebase.isAuthenticated() || currently_not_need_this_check ? (
 			<Component {...hoc_props} {...props} ></Component>
 		) : (
 			<Redirect to={{

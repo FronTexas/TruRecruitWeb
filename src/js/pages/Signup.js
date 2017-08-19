@@ -9,21 +9,24 @@ class SignUp extends React.Component{
 			firstName:'',
 			lastName:'',
 			password:'',
-			email:''
+			email:'',
+			sign_up_button_got_clicked:false
 		};
 	}
 
 	componentWillReceiveProps(nextProps){
-		const {active_user,signed_up_done} = nextProps;
-		if(active_user != null && signed_up_done){
+		const {active_user,sign_up_just_finished} = nextProps;
+		console.log(`in SignUp componentWillReceiveProps, active_user=${active_user}, sign_up_just_finished=${sign_up_just_finished}`);
+		if(active_user != null && this.state.sign_up_button_got_clicked){
 			this.props.push('/profile_set_up');
-		}else{
+		}else if(active_user != null){
 			this.props.push('/dashboard');
 		}
 	}
 
 	handleSignUpClick(){
 		const {firstName,lastName,email,password} = this.state;
+		this.setState({sign_up_button_got_clicked:true})
 		this.props.createNewUser({firstName,lastName,email,password});
 	}
 
@@ -69,8 +72,8 @@ class SignUp extends React.Component{
 }
 
 function mapStateToProps(state){
-	const {active_user} = state;
-	return {active_user};
+	const {active_user,sign_up_just_finished} = state;
+	return {active_user,sign_up_just_finished};
 }
 
 export default connect(mapStateToProps)(SignUp);
