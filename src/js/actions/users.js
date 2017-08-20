@@ -101,6 +101,13 @@ export function signIn(email,password){
 	}
 }
 
+export function signOut(){
+	return (dispatch,getState)=>{
+		const {firebaseRef} = getState();
+		firebaseRef.auth().signOut();
+	}
+}
+
 export function updateUserProfile(fields){
 	return (dispatch,getState)=>{
 		const {firebaseRef,active_user} = getState();

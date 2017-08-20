@@ -1,13 +1,14 @@
 import * as _firebase from '../lib/firebaseWrapper';
 window._firebase = _firebase;
-import history from '../lib/history';
-import React from 'react';
-import ReactDOM from 'react-dom';
 import {ActionCreators} from '../actions';
 import {bindActionCreators} from 'redux';
 import {BrowserRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
+import history from '../lib/history';
 import {Match,Redirect,Switch,Route} from 'react-router';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 
 
 
@@ -69,7 +70,7 @@ class AppContainer extends React.Component{
 	render(){
 		return (
 			<BrowserRouter history={history}>
-				<Layout>
+				<Layout {...this.props}>
 					<Route exact path="/" render={(props) =><Landing {...this.props} {...props}></Landing>}></Route>					
 					<Route path="/sign_up" render={(props) => <SignUp {...this.props} {...props}></SignUp>}></Route>
 					<Route path="/sign_in" render={(props) => <SignIn{...this.props} {...props}></SignIn>}></Route>

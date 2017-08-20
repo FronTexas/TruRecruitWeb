@@ -361,6 +361,9 @@ nav{
 
 .p-medium { font-size: 30px; }
 
+.pd10{
+	padding:10px;
+}
 
 .pdf-resume-upload-icon {
 	display: block;
