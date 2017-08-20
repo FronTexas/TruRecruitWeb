@@ -27,8 +27,8 @@ export function createNewUser(user){
 
 export function fetchActiveUserProfile(uid){
 	return (dispatch,getState) => {
-		const {firebaseRef} = getState();
-		const uid = window.localStorage.getItem('uid');		
+		const {firebaseRef,active_user} = getState();
+		const uid = window.localStorage.getItem('uid') || active_user ;		
 		firebaseRef
 		.database()
 		.ref(`attendees/${uid}`)
@@ -47,9 +47,8 @@ export function fetchActiveUserProfile(uid){
 
 export function fetchActiveUserResumeURL(){
 	return (dispatch,getState)=>{
-		const {firebaseRef} = getState();
-		const uid = window.localStorage.getItem('uid');		
-
+		const {firebaseRef,active_user} = getState();
+		const uid = window.localStorage.getItem('uid') || active_user;		
 		const resume_ref = firebaseRef.storage().ref().child(`attendees/${uid}/resume.pdf`);
 		resume_ref.getDownloadURL().then((resume_url)=>{
 			dispatch({
@@ -87,7 +86,6 @@ export function setActiveUser(uid){
 }
 
 export function signIn(email,password){
-	console.log(`email=${email},password${password}`);
 	return (dispatch,getState)=>{
 		const {firebaseRef} = getState();
 		firebaseRef.auth()
@@ -133,7 +131,6 @@ export function updateUserProfile(fields){
 
 export function uploadResume(file){
 	return (dispatch,getState)=>{
-		console.log('In Upload Resume');
 		const {firebaseRef,active_user} = getState();
 		var storageRef = firebaseRef.storage().ref();
 		var active_userStorageRef = storageRef.child(`attendees/${active_user}/resume.pdf`);
