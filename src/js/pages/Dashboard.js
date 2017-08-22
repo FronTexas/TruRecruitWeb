@@ -148,58 +148,6 @@ class Dashboard extends React.Component{
 }
 
 function mapStateToProps(state){
-	 /*
-			            <div className="col l3">
-			            	<div class="resume-container">
-		               		  	<div className="row">
-			               		  	<div className="col s6 resume-preview-container">
-				               		  	<div class="resume-preview hvr-shadow">
-					                  		<a href={this.state.resume_url ? this.state.resume_url : "#"}>
-					                  		<ReactPDF
-						                  		width="233"
-						                  		file={this.state.resume_url ? this.state.resume_url : ""}
-						                  	>
-						                  	</ReactPDF>
-						                  </a>
-				                  		</div>
-			               		  	</div>
-			               		  	<div className="col s6 resume-preview-container">
-				               		  	<div>
-				                     		<div>
-				                        		<span class="qr-code-explaination">Your Resume QR Code</span>
-				                        		<img src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${this.state.active_user_profile.uid}&color=00BC96&bgcolor=EEF1F7`} alt=""></img>
-				                     		</div>
-					                    	<div class="print-or-share-area">
-							                    <div class="printshare-container">
-						                            <div class="download-resume printshare-button hvr-shadow">
-						                              <i class="fa fa-file-pdf-o"></i>
-						                              <span>Get Resume With QR Code</span>
-						                            </div>
-							                    </div>
-						                        <div class="printshare-container">
-						                           <div class="download-name-tag printshare-button hvr-shadow">
-						                              <i class="fa fa-list-alt"></i>
-						                              <span>Get Name Tag With QR Code</span>
-						                           </div>
-						                        </div>
-						                        <div class="printshare-container">
-						                           <div class="email-qr-code printshare-button hvr-shadow">
-						                              <i class="fa fa-envelope"></i>
-						                              <span>Email QR Code</span>
-						                           </div>
-						                        </div>
-						                        <div class="printshare-container">
-						                           <div class="save-qr-code printshare-button hvr-shadow">
-						                              <i class="fa fa-floppy-o"></i>
-						                              <span>Save QR Code</span>
-						                           </div>
-						                        </div>
-				                    		</div>
-			                  			</div>
-			               		  	</div>
-		               		  	</div>
-				            </div>
-			            </div>*/
 	const {active_user_profile,resume_url} = state;
 	return {active_user_profile,resume_url};
 }
