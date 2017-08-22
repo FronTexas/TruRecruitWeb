@@ -195,6 +195,8 @@ hr {
 }
 
 
+
+
 .hvr-box-shadow-outset {
 	display: inline-block;
 	vertical-align: middle;
@@ -588,6 +590,9 @@ nav{
 
 .tr-green { background-color: #00BC96; }
 
+.tr-green-shadow{
+	box-shadow: 0 10px 10px -10px rgba(0,188,150,0.5) inset;
+}
 
 .tr-green-text { color: #00BC96; }
 

@@ -33,7 +33,7 @@ export default class Nav extends React.Component{
 				        	)
 							: 
 							(
-								<li><button class="waves-effect waves-light btn tr-green" onClick={this.handleSignOutClick.bind(this)} style={{'margin-right':10}}>Sign Out</button></li>	
+								<li><button class="waves-effect waves-light btn tr-green" onClick={this.handleSignOutClick.bind(this)} style={{marginRight:10}}>Sign Out</button></li>	
 							)
 						}
 						
