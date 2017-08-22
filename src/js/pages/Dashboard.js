@@ -52,41 +52,45 @@ class Dashboard extends React.Component{
 	    		               </div>
 	    		               <div class="portfolio-link-container-container">
 	    			               	<SpanBrWrapper class="tr-dark-blue-text large-text"><b>Education</b></SpanBrWrapper>
-	    
-	    			               	<SpanBrWrapper class="medium-text">{this.state.active_user_profile.school_name}</SpanBrWrapper>
-	    
-	    			               	<SpanBrWrapper class="gray-text">{this.state.active_user_profile.school_begin_school_year}-{this.state.active_user_profile.school_end_school_year}</SpanBrWrapper>
-	    			                  
-	    
-	    			               	<SpanBrWrapper class="gray-text">{this.state.active_user_profile.school_degree}</SpanBrWrapper>
-	    			                  
-	    
-	    			               	<SpanBrWrapper class="gray-text">{this.state.active_user_profile.school_area_of_study}</SpanBrWrapper>
-	    			                   
-	    			                   
-	    								
+	    							
+	    							{
+	    								this.state.active_user_profile.educations.map((education,index)=>{
+	    									return (
+	    										<div>
+	    											<SpanBrWrapper class="medium-text">{education.school_name}</SpanBrWrapper>
+		    			               				<SpanBrWrapper class="gray-text">{education.school_begin_school_year}-{education.school_end_school_year}</SpanBrWrapper>
+		    			               				<SpanBrWrapper class="gray-text">{education.school_degree}</SpanBrWrapper>
+		    			               				<SpanBrWrapper class="gray-text">{education.school_area_of_study}</SpanBrWrapper>
+		    			               				{index != this.state.active_user_profile.educations.length -1  ? <br/> : ''}
+	    										</div>
+	    									)
+	    								})
+	    							}
 	    			               	<SpanBrWrapper class="tr-dark-blue-text large-text"><b>Employment</b></SpanBrWrapper>
 	    			               	
-	    			               	<SpanBrWrapper class="medium-text">{this.state.active_user_profile.company_name}</SpanBrWrapper>
-	    			                <SpanBrWrapper  class="gray-text">{this.state.active_user_profile.company_title}</SpanBrWrapper>     
-	    			                  
-	    
-	    			                <SpanBrWrapper class="gray-text">
-	    			                  {this.state.active_user_profile.company_begin_month_employment + " "} 
-	    			                  {this.state.active_user_profile.company_begin_year_employment + " - "}  
-	    			                  {this.state.active_user_profile.company_end_month_employment + " "} 
-	    			                  {this.state.active_user_profile.company_end_year_employment}</SpanBrWrapper>      
-	    			                  
-	    
-	    			                  <SpanBrWrapper  class="gray-text">
-	    			                  {this.state.active_user_profile.company_employment_city + ", "}
-	    			                  {this.state.active_user_profile.company_employment_state}
-	    			                  </SpanBrWrapper>  
-	    
-	    			                  <SpanBrWrapper class="tr-dark-blue-text large-text"><b>Portfolio</b></SpanBrWrapper>
-	    			                  <div class="portfolio-link-container">
+	    			               	{
+	    			               		this.state.active_user_profile.employments.map((employment,index)=>{
+	    			               			return(<div>
+				               		    		<SpanBrWrapper class="medium-text">{employment.company_name}</SpanBrWrapper>
+				    			                <SpanBrWrapper  class="gray-text">{employment.company_title}</SpanBrWrapper>     
+				    			                <SpanBrWrapper class="gray-text">
+				    			                  {employment.company_begin_month_employment + " "} 
+				    			                  {employment.company_begin_year_employment + " - "}  
+				    			                  {employment.company_end_month_employment + " "} 
+				    			                  {employment.company_end_year_employment}</SpanBrWrapper>      
+				    			                 <SpanBrWrapper  class="gray-text">
+				    			                  {employment.company_employment_city + ", "}
+				    			                  {employment.company_employment_state}
+				    			                 </SpanBrWrapper>  
+		    			               		    {index != this.state.active_user_profile.employments.length -1  ? <br/> : ''}
+			    			                 </div>)               		
+	    			               		})
+	    			                }
+	    			               
+	    			                 <SpanBrWrapper class="tr-dark-blue-text large-text"><b>Portfolio</b></SpanBrWrapper>
+	    			                 <div class="portfolio-link-container">
 	    			                     <a href="" class="portfolio-link">{this.state.active_user_profile.portfolio_link}</a>
-	    			                  </div>
+	    			                 </div>
 	    		               </div>
 				            </div>
 			            </div>
