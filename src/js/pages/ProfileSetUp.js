@@ -22,8 +22,23 @@ class ProfileSetUp extends React.Component{
 		};
 	}
 
+	componentDidMount(){
+		this.props.fetchActiveUserProfile();
+	}
+
 	componentWillReceiveProps(nextProps){
-		const {upload_file_success,update_user_profile_success} = nextProps;
+		const {upload_file_success,update_user_profile_success,active_user_profile} = nextProps;
+		if(active_user_profile != null){
+			this.setState({...active_user_profile})
+		}
+
+		if(update_user_profile_success){
+			this.setState({show_saved_text:true})
+			setTimeout(()=>{
+				this.setState({show_saved_text:false})
+			},1000)
+		}
+
 		if(upload_file_success && update_user_profile_success){
 			this.props.push('/dashboard');
 		}
@@ -47,7 +62,6 @@ class ProfileSetUp extends React.Component{
 	}
 
 	handleSaveClick(event){
-		console.log(this.state);
 		this.props.updateUserProfile(this.state);
 		if(this.state.resume){
 			this.props.uploadResume(this.state.resume);
@@ -125,7 +139,7 @@ class ProfileSetUp extends React.Component{
 						<p>Portfolio Link</p>
 						<input value={this.state.portfolio_link} onChange={this.handleInputChange.bind(this)} type="text" name="portfolio_link" id="" cols="30" rows="1" placeholder="link to portfolio">
 						</input>
-						<button type="button" class="waves-effect waves-light btn tr-green" onClick={this.handleSaveClick.bind(this)}>Save</button>
+						<button type="button" class="waves-effect waves-light btn tr-green" onClick={this.handleSaveClick.bind(this)}>{this.state.show_saved_text ? 'Saved!' : 'Save'}</button>
 					</form>
 				</div>
 			</div>
@@ -134,8 +148,8 @@ class ProfileSetUp extends React.Component{
 }
 
 function mapStateToProps(state){
-	const {upload_file_success,update_user_profile_success} = state;
-	return {upload_file_success,update_user_profile_success}
+	const {upload_file_success,update_user_profile_success,active_user_profile} = state;
+	return {upload_file_success,update_user_profile_success,active_user_profile}
 }
 
 export default connect(mapStateToProps)(ProfileSetUp);
