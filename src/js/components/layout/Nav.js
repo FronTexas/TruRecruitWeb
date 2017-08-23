@@ -1,9 +1,22 @@
+import {connect} from 'react-redux';
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-export default class Nav extends React.Component{
+class Nav extends React.Component{
 	constructor(){
 		super();
+		this.state = {
+			active_user_profile: null
+		}
+	}
+
+	componentDidMount(){
+		this.props.fetchActiveUserProfile();
+	}
+
+	componentWillReceiveProps(nextProps){
+		const {active_user_profile} = nextProps;
+		this.setState({active_user_profile});
 	}
 
 	handleSignOutClick(){
@@ -17,6 +30,11 @@ export default class Nav extends React.Component{
 
 	render(){
 		const {pathname} = this.props.location;
+		
+		if (!this.inNonAuthenticatedPages(pathname)){
+			$(".dropdown-button").dropdown({constrainWidth: false });
+		}
+
 		return(
 			<div>
 				<ul id="dropdown" class="dropdown-content nav-dropdown-ul">
@@ -24,7 +42,7 @@ export default class Nav extends React.Component{
 						<div>
 							<span>Signed in as</span>
 							<br/>
-							<span style={{fontSize:20}}><b>Fahran Kamili</b></span>
+							<span style={{fontSize:20}}><b>{this.state.active_user_profile ? this.state.active_user_profile.name : ''}</b></span>
 						</div>
 						
 					</li>
@@ -123,3 +141,10 @@ export default class Nav extends React.Component{
 		)
 	}
 }
+
+function mapStateToProps(state){
+	const {active_user_profile} = state;
+	return {active_user_profile}
+}
+
+export default connect(mapStateToProps)(Nav);
