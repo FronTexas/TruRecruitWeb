@@ -312,6 +312,23 @@ nav{
 	background-color: #263238;
 }
 
+.nav-active-marker{
+	width:100%;
+	height:5px;
+	background-color: #00BC96;
+	position: absolute;
+	top:0;
+}
+
+.nav-dropdown-list{
+	padding: 10px;
+}
+
+.nav-dropdown-ul{
+	width:200px;
+}
+
+
 .name-description-container { }
 
 
@@ -333,6 +350,10 @@ nav{
 .nav-tr-icon{
 	display: inline-block;
 	width: 30px;
+}
+
+.nav-tr-icon.large{
+	width:50px;
 }
 
 .nav-tr-text-logo {
@@ -454,14 +475,25 @@ nav{
 .profpic {
 	border-radius: 50%;
 	display: block;
-	margin: auto; }
+	margin: auto; 
+}
+
 
 .profpic.large{
 	width:75px;
 }
 
+
 .profpic.small{
 	width:45px;
+}
+
+.profpic-nav{
+	border-radius: 50%;
+	display: block;
+	margin-top: 15px;
+	margin-right: 10px;
+	width: 35px;
 }
 
 
