@@ -22,7 +22,7 @@ import UidProvider from '../components/UidProvider';
 
 const currently_not_need_this_check = false;
 
-const RedirectWhenConditionsNotMet = ({component:Component,...rest,hoc_props,should_redirect,redirect_to}) => (
+const RouteWrapper = ({component:Component,...rest,hoc_props,should_redirect,redirect_to}) => (
 	<Route {...rest} render={props=>	
 			!should_redirect ? (
 				<Component {...hoc_props} {...props} ></Component>
@@ -71,46 +71,46 @@ class AppContainer extends React.Component{
 		return (
 			<BrowserRouter history={history}>
 				<Layout {...this.props}>
-					<RedirectWhenConditionsNotMet
+					<RouteWrapper
 						exact
 						component={Landing}
 						path="/" 
 						redirect_to="/dashboard"  
 						should_redirect = {_firebase.isAuthenticated()}
 						hoc_props={this.props} 
-						></RedirectWhenConditionsNotMet>
+						></RouteWrapper>
 
-					<RedirectWhenConditionsNotMet
+					<RouteWrapper
 						component={SignIn}
 						path="/sign_in" 
 						redirect_to="/dashboard"  
 						should_redirect = {_firebase.isAuthenticated()}
 						hoc_props={this.props} 
-						></RedirectWhenConditionsNotMet>
+						></RouteWrapper>
 
-					<RedirectWhenConditionsNotMet
+					<RouteWrapper
 						component={SignUp}
 						path="/sign_up" 
 						redirect_to="/dashboard"  
 						should_redirect = {_firebase.isAuthenticated()}
 						hoc_props={this.props} 
-						></RedirectWhenConditionsNotMet>
+						></RouteWrapper>
 
-					<RedirectWhenConditionsNotMet
+					<RouteWrapper
 						component={ProfileSetUp}
 						path="/profile_set_up" 
 						redirect_to="/sign_in"  
 						should_redirect = {!_firebase.isAuthenticated() && !currently_not_need_this_check}
 						hoc_props={this.props} 
-						></RedirectWhenConditionsNotMet>
+						></RouteWrapper>
 
-					<RedirectWhenConditionsNotMet
+					<RouteWrapper
 						component={Dashboard}
 						path="/dashboard" 
 						redirect_to="/sign_in"  
 						should_redirect = {!_firebase.isAuthenticated() && !currently_not_need_this_check}
 						hoc_props={this.props} 
-						></RedirectWhenConditionsNotMet>		
+						></RouteWrapper>		
 				</Layout>
 			</BrowserRouter>
 		)
