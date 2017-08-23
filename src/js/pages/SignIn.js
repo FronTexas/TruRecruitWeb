@@ -10,12 +10,6 @@ class SignIn extends React.Component{
 		this.state={}
 	}
 
-	componentWillReceiveProps(nextProps){
-		const {active_user} = nextProps;
-		if(active_user != null){
-			this.props.push('/dashboard');
-		}
-	}
 
 	handleSignInClick(e){
 		this.props.signIn(this.state.email,this.state.password);

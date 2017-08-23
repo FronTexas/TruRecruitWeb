@@ -18,8 +18,6 @@ class SignUp extends React.Component{
 		const {active_user,sign_up_just_finished} = nextProps;
 		if(active_user != null && this.state.sign_up_button_got_clicked){
 			this.props.push('/profile_set_up');
-		}else if(active_user != null){
-			this.props.push('/dashboard');
 		}
 	}
 

@@ -22,18 +22,18 @@ import UidProvider from '../components/UidProvider';
 
 const currently_not_need_this_check = false;
 
-const RouteWhenAuthorized = ({component:Component,...rest,hoc_props}) => (
-	<Route {...rest} render={props=>(		
-		_firebase.isAuthenticated() || currently_not_need_this_check ? (
-			<Component {...hoc_props} {...props} ></Component>
-		) : (
-			<Redirect to={{
-				pathname:'/sign_in',
-				state: {from:props.location}
-			}}>
-			</Redirect>
-		)
-	)}></Route>
+const RedirectWhenConditionsNotMet = ({component:Component,...rest,hoc_props,should_redirect,redirect_to}) => (
+	<Route {...rest} render={props=>	
+			!should_redirect ? (
+				<Component {...hoc_props} {...props} ></Component>
+			) : (
+				<Redirect to={{
+					pathname:redirect_to,
+					state: {from:props.location}
+				}}>
+				</Redirect>
+			)
+	}></Route>
 );
 
 class AppContainer extends React.Component{
@@ -71,11 +71,46 @@ class AppContainer extends React.Component{
 		return (
 			<BrowserRouter history={history}>
 				<Layout {...this.props}>
-					<Route exact path="/" render={(props) =><Landing {...this.props} {...props}></Landing>}></Route>					
-					<Route path="/sign_up" render={(props) => <SignUp {...this.props} {...props}></SignUp>}></Route>
-					<Route path="/sign_in" render={(props) => <SignIn{...this.props} {...props}></SignIn>}></Route>
-					<RouteWhenAuthorized path="/profile_set_up" hoc_props={this.props} component={ProfileSetUp}></RouteWhenAuthorized>
-					<RouteWhenAuthorized path="/dashboard" hoc_props={this.props} component={Dashboard}></RouteWhenAuthorized>
+					<RedirectWhenConditionsNotMet
+						exact
+						component={Landing}
+						path="/" 
+						redirect_to="/dashboard"  
+						should_redirect = {_firebase.isAuthenticated()}
+						hoc_props={this.props} 
+						></RedirectWhenConditionsNotMet>
+
+					<RedirectWhenConditionsNotMet
+						component={SignIn}
+						path="/sign_in" 
+						redirect_to="/dashboard"  
+						should_redirect = {_firebase.isAuthenticated()}
+						hoc_props={this.props} 
+						></RedirectWhenConditionsNotMet>
+
+					<RedirectWhenConditionsNotMet
+						component={SignUp}
+						path="/sign_up" 
+						redirect_to="/dashboard"  
+						should_redirect = {_firebase.isAuthenticated()}
+						hoc_props={this.props} 
+						></RedirectWhenConditionsNotMet>
+
+					<RedirectWhenConditionsNotMet
+						component={ProfileSetUp}
+						path="/profile_set_up" 
+						redirect_to="/sign_in"  
+						should_redirect = {!_firebase.isAuthenticated() && !currently_not_need_this_check}
+						hoc_props={this.props} 
+						></RedirectWhenConditionsNotMet>
+
+					<RedirectWhenConditionsNotMet
+						component={Dashboard}
+						path="/dashboard" 
+						redirect_to="/sign_in"  
+						should_redirect = {!_firebase.isAuthenticated() && !currently_not_need_this_check}
+						hoc_props={this.props} 
+						></RedirectWhenConditionsNotMet>		
 				</Layout>
 			</BrowserRouter>
 		)
