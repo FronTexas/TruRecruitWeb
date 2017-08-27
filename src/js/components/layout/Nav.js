@@ -96,8 +96,8 @@ class Nav extends React.Component{
 								(
 									<li>
 										<a href="#!" class="dropdown-button" data-activates="dropdown">
-											<img src="http://www.radfaces.com/images/avatars/alan-frog.jpg"
-												 class="profpic-nav"
+											<img src={this.state.active_user_profile ? this.state.active_user_profile.prof_pic_url : ''}
+												 class="profpic-nav tr-gray-light"
 												 alt=""
 											/>
 										</a>

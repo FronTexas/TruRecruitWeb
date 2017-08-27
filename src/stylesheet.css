@@ -129,6 +129,10 @@ body { font-family: 'Roboto Condensed'; }
 	font-size: 15px;
 	margin-top: 5px; }
 
+.display-none{
+	display: none;
+}
+
 
 .drag-drop-container {
 	display: block;
@@ -475,17 +479,20 @@ nav{
 .profpic {
 	border-radius: 50%;
 	display: block;
-	margin: auto; 
+	margin: auto;
+	background-color: #ecf0f1; 
 }
 
 
 .profpic.large{
 	width:75px;
+	height:75px;
 }
 
 
 .profpic.small{
 	width:45px;
+	height: 75px;
 }
 
 .profpic-nav{
@@ -494,6 +501,14 @@ nav{
 	margin-top: 15px;
 	margin-right: 10px;
 	width: 35px;
+	height: 35px;
+}
+
+.profpic-setter{
+	border-radius: 50%;
+	width:200px;
+	height: 200px;
+	background-color: #ecf0f1;
 }
 
 
@@ -618,6 +633,8 @@ nav{
 
 
 .tr-gray { background-color: #D5DAE5 }
+
+.tr-gray-light {background-color: #ecf0f1}
 
 
 .tr-green { background-color: #00BC96; }

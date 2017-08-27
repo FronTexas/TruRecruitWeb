@@ -129,6 +129,25 @@ export function updateUserProfile(fields){
 	}
 }
 
+export function uploadProfilePicture(file){
+	return (dispatch,getState)=>{
+		let {firebaseRef,active_user} = getState()
+		let storageRef = firebaseRef.storage().ref()
+		let databaseRef = firebaseRef.database().ref(); 
+		var active_userStorageRef = storageRef.child(`attendees/${active_user}/profilePicture.jpg`)
+		active_userStorageRef.put(file).then((snap)=>{
+			if(snap){
+				updateUserProfile({'prof_pic_url':snap.downloadURL})
+				dispatch({
+					type:"PROFILE_PICTURE_UPLOAD_SUCCESS"
+				})
+			}
+
+		})
+
+	}
+}
+
 export function uploadResume(file){
 	return (dispatch,getState)=>{
 		const {firebaseRef,active_user} = getState();
@@ -142,4 +161,6 @@ export function uploadResume(file){
 		})
 	}
 }
+
+
 

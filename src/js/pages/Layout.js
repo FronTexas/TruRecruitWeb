@@ -11,7 +11,7 @@ export default class Layout extends React.Component{
 		return(
 				<div class="tr-gray main-container">
 					<NavWrapped {...this.props}>></NavWrapped>					
-					<div className="col s12">
+					<div>
 						{this.props.children}
 					</div>
 				</div>

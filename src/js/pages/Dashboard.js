@@ -44,7 +44,7 @@ class Dashboard extends React.Component{
 		            	<div className="col l3 container personal-information-box-container">
 				            <div class="personal-information-box hvr-shadow">
 	    		               <div class="user-information">
-	    		                  <img src="http://www.radfaces.com/images/avatars/alan-frog.jpg" alt="" class="profpic large"></img>
+	    		                  <img src={this.state.active_user_profile.prof_pic_url} alt="" class="profpic large"></img>
 	    		                  <div class="name-description-container">
 	    		                     <span class="name">{this.state.active_user_profile.name}</span>
 	    		                     <snap class="description">{this.state.active_user_profile.summary}</snap>
