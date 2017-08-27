@@ -93,39 +93,39 @@ class ProfileSetUp extends React.Component{
 		const {active_user_profile} = this.state
 		return (
 			<div className="row">
-				<div className="col l6">
-					{
-						this.state.update_profile_pic_button_just_got_clicked && this.state.prof_pic_url ? 
-							 <AvatarEditor
-								ref={this.setEditorRef.bind(this)}
-								image={this.state.prof_pic_url}
-								width={200}
-						        height={200}
-						        color={[255, 255, 255, 0.6]}
-						        scale={1}
-						        borderRadius={100}
-						      />
-						:
-							<img className="profpic-setter" src={active_user_profile ? active_user_profile.prof_pic_url : ''} alt=""/>
-					}
-					<div class="file-field input-field">
-				      <div class="btn tr-green">
-				        <span>Upload new profile picture</span>
-				        <input 
-				        	type="file" 
-				        	onChange={this.handleUpdateProfilePicture.bind(this)} 
-				        	capture>
-				        </input>
-				      </div>
-				      <div class="file-path-wrapper">
-					        <input class="file-path validate" type="text">
-					        </input>
-					      </div>
-				    </div>
-				</div>
-				<div class="col l6 tr-gray center-horizontal">
-					<div class="card large card-width-medium form-box form-box-profile-set-up">
+				<div class="col l12 tr-gray center-horizontal">
+					<div class="card card-width-medium form-box form-box-profile-set-up">
 						<p class="tr-green-text" id="set-up-profile-text">Set up your profile</p>
+						<div>
+							{
+								this.state.update_profile_pic_button_just_got_clicked && this.state.prof_pic_url ? 
+									 <AvatarEditor
+										ref={this.setEditorRef.bind(this)}
+										image={this.state.prof_pic_url}
+										width={200}
+								        height={200}
+								        color={[255, 255, 255, 0.6]}
+								        scale={1}
+								        borderRadius={100}
+								      />
+								:
+									<img className="profpic-setter" src={active_user_profile ? active_user_profile.prof_pic_url : ''} alt=""/>
+							}
+							<div class="file-field input-field">
+						      <div class="btn tr-green">
+						        <span>Upload new profile picture</span>
+						        <input 
+						        	type="file" 
+						        	onChange={this.handleUpdateProfilePicture.bind(this)} 
+						        	capture>
+						        </input>
+						      </div>
+						      <div class="file-path-wrapper">
+							        <input class="file-path validate" type="text">
+							        </input>
+							      </div>
+						    </div>
+						</div>
 						<form method="post">
 							<p><b>Upload Resume</b></p>
 							<div class="file-field input-field">
