@@ -1,10 +1,7 @@
 import React from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import {connect} from 'react-redux';
-import Cropper from 'react-cropper';
-import 'cropperjs/dist/cropper.css';
 import {Link} from 'react-router-dom';
-import ReactCrop from 'react-image-crop';
 
 import _ from 'underscore';
 import EducationInputForm from '../components/EducationInputForm';
