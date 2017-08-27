@@ -103,6 +103,7 @@ class ProfileSetUp extends React.Component{
 						        height={200}
 						        color={[255, 255, 255, 0.6]}
 						        scale={1}
+						        borderRadius={100}
 						      />
 						:
 							<img className="profpic-setter" src={active_user_profile ? active_user_profile.prof_pic_url : ''} alt=""/>
