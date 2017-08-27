@@ -137,7 +137,7 @@ export function uploadProfilePicture(file){
 		var active_userStorageRef = storageRef.child(`attendees/${active_user}/profilePicture.jpg`)
 		active_userStorageRef.put(file).then((snap)=>{
 			if(snap){
-				updateUserProfile({'prof_pic_url':snap.downloadURL})
+				updateUserProfile({'prof_pic_url':snap.downloadURL})(dispatch,getState)
 				dispatch({
 					type:"PROFILE_PICTURE_UPLOAD_SUCCESS"
 				})

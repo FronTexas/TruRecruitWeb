@@ -12,9 +12,6 @@ class ProfileSetUp extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			educations:null,
-			employments:null,
-			private:{}
 		};
 	}
 
@@ -26,7 +23,7 @@ class ProfileSetUp extends React.Component{
 		var {upload_file_success,update_user_profile_success,active_user_profile} = nextProps;
 		
 		if(active_user_profile != null){
-			this.setState({...active_user_profile})
+			this.setState({active_user_profile})
 		}
 
 		if(update_user_profile_success){
@@ -41,9 +38,6 @@ class ProfileSetUp extends React.Component{
 		}
 	}
 
-	_crop(){
-		// console.log(this.refs.cropper.getCroppedCanvas().toDataURL());
-	}
 
 	handleFileUpload(event){
 		const file = event.target.files[0];
@@ -65,7 +59,7 @@ class ProfileSetUp extends React.Component{
 	}
 
 	handleSaveClick(event){
-		this.props.updateUserProfile(this.state);
+		this.props.updateUserProfile(this.state.active_user_profile);
 		if(this.state.resume){
 			this.props.uploadResume(this.state.resume);
 		}
@@ -96,6 +90,7 @@ class ProfileSetUp extends React.Component{
 	}
 
 	render(){
+		const {active_user_profile} = this.state
 		return (
 			<div className="row">
 				<div className="col l6">
@@ -110,7 +105,7 @@ class ProfileSetUp extends React.Component{
 						        scale={1}
 						      />
 						:
-							<img className="profpic-setter" src={this.state.prof_pic_url || ''} alt=""/>
+							<img className="profpic-setter" src={active_user_profile ? active_user_profile.prof_pic_url : ''} alt=""/>
 					}
 					<div class="file-field input-field">
 				      <div class="btn tr-green">
@@ -143,18 +138,18 @@ class ProfileSetUp extends React.Component{
 						      </div>
 						    </div>
 							<p><b>Summary</b></p>
-							<input value={this.state.summary} onChange={this.handleInputChange.bind(this)} type="text" name="summary" id="" cols="70" rows="2" placeholder="Graduating December 2017 from UT Austin" maxLength="140" required="required"></input>
+							<input value={active_user_profile ? active_user_profile.summary : ''} onChange={this.handleInputChange.bind(this)} type="text" name="summary" id="" cols="70" rows="2" placeholder="Graduating December 2017 from UT Austin" maxLength="140" required="required"></input>
 
 
 							<p><b>Education</b></p>
-							<EducationInputForm {...this.props} educations = {this.state.educations}></EducationInputForm>
+							<EducationInputForm {...this.props} educations = {active_user_profile ?  active_user_profile.educations : null}></EducationInputForm>
 
 							<p><b>Employment History</b></p>
 
-							<EmploymentInputForm {...this.props} employments={this.state.employments}></EmploymentInputForm>
+							<EmploymentInputForm {...this.props} employments={active_user_profile ? active_user_profile.employments : null}></EmploymentInputForm>
 
 							<p><b>Portfolio Link</b></p>
-							<input value={this.state.portfolio_link} onChange={this.handleInputChange.bind(this)} type="text" name="portfolio_link" id="" cols="30" rows="1" placeholder="link to portfolio">
+							<input value={active_user_profile ? active_user_profile.portfolio_link : ''} onChange={this.handleInputChange.bind(this)} type="text" name="portfolio_link" id="" cols="30" rows="1" placeholder="link to portfolio">
 							</input>
 							<button type="button" class="waves-effect waves-light btn tr-green" onClick={this.handleSaveClick.bind(this)}>{this.state.show_saved_text ? 'Saved!' : 'Save'}</button>
 						</form>
