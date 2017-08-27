@@ -72,7 +72,13 @@ class ProfileSetUp extends React.Component{
 		if(this.state.resume){
 			this.props.uploadResume(this.state.resume);
 		}
-		this.uploadCroppedImage()
+		if (this.editor){
+			console.log('editor = ',this.editor)
+			let canvasScaled = this.editor.getImageScaledToCanvas();
+			canvasScaled.toBlob((blob)=>{
+				this.props.uploadProfilePicture(blob);
+			})
+		}	
 	}
 
 	handleUpdateProfilePicture(event){
@@ -88,16 +94,8 @@ class ProfileSetUp extends React.Component{
 		reader.readAsDataURL(file);
 	}
 
-	uploadCroppedImage(){
-		if (typeof this.cropper.getCroppedCanvas() === 'undefined'){
-			return
-		}
-
-		let croppedCanvas = this.cropper.getCroppedCanvas()
-		croppedCanvas.toBlob((blob)=>{
-			this.props.uploadProfilePicture(blob);
-		})
-
+	setEditorRef(editor){
+		this.editor = editor;
 	}
 
 	render(){
@@ -106,15 +104,14 @@ class ProfileSetUp extends React.Component{
 				<div className="col l6">
 					{
 						this.state.update_profile_pic_button_just_got_clicked && this.state.prof_pic_url ? 
-							 <Cropper
-            					ref={cropper => { this.cropper = cropper; }}
-						        src={this.state.prof_pic_url}
-						        style={{height: 300, width: 300}}
-						        // Cropper.js options
-						        aspectRatio={1 / 1}
-						        zoom={2}
-						        dragMode={'move'}
-						        crop={this._crop.bind(this)} />
+							 <AvatarEditor
+								ref={this.setEditorRef.bind(this)}
+								image={this.state.prof_pic_url}
+								width={200}
+						        height={200}
+						        color={[255, 255, 255, 0.6]}
+						        scale={1}
+						      />
 						:
 							<img className="profpic-setter" src={this.state.prof_pic_url || ''} alt=""/>
 					}
