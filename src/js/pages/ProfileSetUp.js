@@ -1,6 +1,8 @@
 import React from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import {connect} from 'react-redux';
+import Cropper from 'react-cropper';
+import 'cropperjs/dist/cropper.css';
 import {Link} from 'react-router-dom';
 import ReactCrop from 'react-image-crop';
 
@@ -42,6 +44,10 @@ class ProfileSetUp extends React.Component{
 		}
 	}
 
+	_crop(){
+		// console.log(this.refs.cropper.getCroppedCanvas().toDataURL());
+	}
+
 	handleFileUpload(event){
 		const file = event.target.files[0];
 		this.setState({
@@ -66,14 +72,7 @@ class ProfileSetUp extends React.Component{
 		if(this.state.resume){
 			this.props.uploadResume(this.state.resume);
 		}
-
-		if (this.editor){
-			console.log('editor = ',this.editor)
-			let canvasScaled = this.editor.getImageScaledToCanvas();
-			canvasScaled.toBlob((blob)=>{
-				this.props.uploadProfilePicture(blob);
-			})
-		}
+		this.uploadCroppedImage()
 	}
 
 	handleUpdateProfilePicture(event){
@@ -89,8 +88,16 @@ class ProfileSetUp extends React.Component{
 		reader.readAsDataURL(file);
 	}
 
-	setEditorRef(editor){
-		this.editor = editor
+	uploadCroppedImage(){
+		if (typeof this.cropper.getCroppedCanvas() === 'undefined'){
+			return
+		}
+
+		let croppedCanvas = this.cropper.getCroppedCanvas()
+		croppedCanvas.toBlob((blob)=>{
+			this.props.uploadProfilePicture(blob);
+		})
+
 	}
 
 	render(){
@@ -99,15 +106,15 @@ class ProfileSetUp extends React.Component{
 				<div className="col l6">
 					{
 						this.state.update_profile_pic_button_just_got_clicked && this.state.prof_pic_url ? 
-							<AvatarEditor
-								ref={this.setEditorRef.bind(this)}
-								image={this.state.prof_pic_url}
-								width={200}
-						        height={200}
-						        color={[255, 255, 255, 0.6]}
-						        scale={1}
-						        borderRadius={100}
-						      />
+							 <Cropper
+            					ref={cropper => { this.cropper = cropper; }}
+						        src={this.state.prof_pic_url}
+						        style={{height: 300, width: 300}}
+						        // Cropper.js options
+						        aspectRatio={1 / 1}
+						        zoom={2}
+						        dragMode={'move'}
+						        crop={this._crop.bind(this)} />
 						:
 							<img className="profpic-setter" src={this.state.prof_pic_url || ''} alt=""/>
 					}
