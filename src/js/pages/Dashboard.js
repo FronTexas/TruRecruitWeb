@@ -5,6 +5,7 @@ import ReactPDF from 'react-pdf/build/entry.webpack';
 
 
 import RecruiterActivity from '../components/RecruiterActivity';
+import ResumeContainer from '../components/ResumeContainer';
 
 class SpanBrWrapper extends React.Component{
 	render() {return(
@@ -98,44 +99,7 @@ class Dashboard extends React.Component{
 			            	{<RecruiterActivity {...this.props}></RecruiterActivity>}
 			            </div>
 			            <div className="col l3 resume-container">
-	                  		<a href={this.state.resume_url ? this.state.resume_url : "#"}>
-			            		<div className="resume-preview hvr-shadow">
-			            			<div className="center-align">
-		                        		<p class="qr-code-explaination tr-green-text">Your Resume QR Code</p>
-		                        		<img class="qr-code" src={`https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${this.state.active_user_profile.uid}&color=00BC96&bgcolor=FFFFFF`} alt=""></img>
-		                        		<br/>
-		                        		<span class="tr-blue-text">Main Resume.pdf</span>
-		                     		</div>
-			            		</div>
-			            	</a>
-			            	<div class="print-or-share-area">
-			            		<div class="printshare-container">
-		                           <a class="save-qr-code printshare-button hvr-shadow"
-		                           	  href={`https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${this.state.active_user_profile.uid}&color=00BC96&bgcolor=FFFFFF`} 
-		                           	  download={`${this.state.active_user_profile.name}_qr_code`}>
-		                              <i class="fa fa-floppy-o"></i>
-		                              <span>Save the QR Code</span>
-		                           </a>
-		                        </div>
-			                    <div class="printshare-container">
-		                            <div class="download-resume printshare-button hvr-shadow">
-		                              <i class="fa fa-file-pdf-o"></i>
-		                              <span>Print a Resume With the QR Code</span>
-		                            </div>
-			                    </div>
-		                        <div class="printshare-container">
-		                           <div class="download-name-tag printshare-button hvr-shadow">
-		                              <i class="fa fa-list-alt"></i>
-		                              <span>Print a Name Tag With the QR Code</span>
-		                           </div>
-		                        </div>
-		                        <div class="printshare-container">
-		                           <div class="email-qr-code printshare-button hvr-shadow">
-		                              <i class="fa fa-envelope"></i>
-		                              <span>Email the QR Code</span>
-		                           </div>
-		                        </div>
-                    		</div>
+	                  		<ResumeContainer {...this.props}></ResumeContainer>
 			            </div>
 		            </div>
          		</div>
