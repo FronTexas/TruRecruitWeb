@@ -2,7 +2,7 @@ const twilio = require('twilio');
 const account_sid = process.env.TWILIO_ACOUNT_SID;
 const auth_token = process.env.TWILIO_AUTH_TOKEN;
 const client = new twilio(account_sid,auth_token);
-const _from = '+15123615127';
+const _from = process.env.TWILIO_PHONE_NUMBER
 
 exports.sendQRCodeAsText = (req,res)=>{
 	const {to,link_to_qr_code} = req.body;
