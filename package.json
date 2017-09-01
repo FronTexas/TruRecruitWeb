@@ -34,6 +34,7 @@
     "json-loader": "^0.5.7",
     "loader-utils": "^1.1.0",
     "month": "^2.0.1",
+    "nodemailer": "^4.1.0",
     "postcss-loader": "^2.0.6",
     "react": "^0.14.9",
     "react-avatar-cropper": "^0.1.3",
