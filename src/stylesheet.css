@@ -232,6 +232,9 @@ hr {
 	transition-property: box-shadow; }
 	.hvr-shadow:hover, .hvr-shadow:focus, .hvr-shadow:active { box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.5); }
 
+.input-phone-number{
+	width: 75%;
+}
 
 .instruction { 
 	background: #263238;

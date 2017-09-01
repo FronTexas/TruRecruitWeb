@@ -11,7 +11,7 @@ class ResumeContainer extends Component{
 		}
 	}
 	textQRCode(){
-		this.props.sendQRCodeAsText('+15123948686',this.state.link_to_qr_code);
+		this.props.sendQRCodeAsText(this.props.active_user_profile.phone_number,this.state.link_to_qr_code);
 	}
 	render(){
 		return (
@@ -37,7 +37,7 @@ class ResumeContainer extends Component{
                     </div>
                     <div class="printshare-container">
                        <div class="printshare-button hvr-shadow" onClick={this.textQRCode.bind(this)}>
-                          <i class="fa fa-floppy-o"></i>
+                          <i class="fa fa-commenting"></i>
                           <span>Text the QR code</span>
                        </div>
                     </div>

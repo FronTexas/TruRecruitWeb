@@ -2,6 +2,7 @@ import React from 'react';
 import AvatarEditor from 'react-avatar-editor';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
+import ReactPhoneInput from 'react-phone-input';
 
 import _ from 'underscore';
 import EducationInputForm from '../components/EducationInputForm';
@@ -58,6 +59,14 @@ class ProfileSetUp extends React.Component{
 		});	
 	}
 
+	handlePhoneNumberChange(phone){
+		this.setState({
+			active_user_profile:{
+				phone_number:phone
+			}
+		});
+	}
+
 	handleSaveClick(event){
 		this.props.updateUserProfile(this.state.active_user_profile);
 		if(this.state.resume){
@@ -91,6 +100,12 @@ class ProfileSetUp extends React.Component{
 
 	render(){
 		const {active_user_profile} = this.state
+		console.log('active_user_profile',active_user_profile);
+		const phone_number = null;
+		if (active_user_profile){
+			const phone_number = active_user_profile.phone_number;
+			console.log('phone_number = ',phone_number);
+		}
 		return (
 			<div className="row">
 				<div class="col l12 tr-gray center-horizontal">
@@ -141,6 +156,13 @@ class ProfileSetUp extends React.Component{
 							<p><b>Summary</b></p>
 							<input value={active_user_profile ? active_user_profile.summary : ''} onChange={this.handleInputChange.bind(this)} type="text" name="summary" id="" cols="70" rows="2" placeholder="Graduating December 2017 from UT Austin" maxLength="140" required="required"></input>
 
+							<div className="input-phone-number">
+								<p><b>Phone Number</b></p>
+								<ReactPhoneInput 
+									value={active_user_profile ? active_user_profile.phone_number : ''} 
+									defaultCountry={'us'} 
+									onChange={this.handlePhoneNumberChange.bind(this)}></ReactPhoneInput>,
+							</div>
 
 							<p><b>Education</b></p>
 							<EducationInputForm {...this.props} educations = {active_user_profile ?  active_user_profile.educations : null}></EducationInputForm>
