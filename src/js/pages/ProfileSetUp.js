@@ -1,10 +1,10 @@
 import React from 'react';
-import AvatarEditor from 'react-avatar-editor';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import ReactPhoneInput from 'react-phone-input';
 
 import _ from 'underscore';
+import EditProfilePicture from '../components/EditProfilePicture';
 import EducationInputForm from '../components/EducationInputForm';
 import EmploymentInputForm from '../components/EmploymentInputForm';
 import Select from '../components/Select';
@@ -72,75 +72,32 @@ class ProfileSetUp extends React.Component{
 		if(this.state.resume){
 			this.props.uploadResume(this.state.resume);
 		}
-		if (this.editor){
-			console.log('editor = ',this.editor)
-			let canvasScaled = this.editor.getImageScaledToCanvas();
-			canvasScaled.toBlob((blob)=>{
-				this.props.uploadProfilePicture(blob);
-			})
-		}	
+		
 	}
 
-	handleUpdateProfilePicture(event){
-		let reader = new FileReader();
-		let file = event.target.files[0]
-
-		reader.onloadend = () => {
-			this.setState({
-				prof_pic_url: reader.result,
-				update_profile_pic_button_just_got_clicked:true
-			})
-		};
-		reader.readAsDataURL(file);
-	}
-
-	setEditorRef(editor){
-		this.editor = editor;
-	}
+	/*
+		- Replace each field with react-form
+		- Handle data validation 
+		- Handle state's update 
+		- Handle data posting to firebase 
+	*/
 
 	render(){
 		const {active_user_profile} = this.state
-		console.log('active_user_profile',active_user_profile);
+		console.log('active_user_profile in ProfileSetUp = ',active_user_profile)
 		const phone_number = null;
 		if (active_user_profile){
 			const phone_number = active_user_profile.phone_number;
-			console.log('phone_number = ',phone_number);
 		}
 		return (
 			<div className="row">
 				<div class="col l12 tr-gray center-horizontal">
 					<div class="card card-width-medium form-box form-box-profile-set-up">
 						<p class="tr-green-text" id="set-up-profile-text">Set up your profile</p>
-						<div>
-							{
-								this.state.update_profile_pic_button_just_got_clicked && this.state.prof_pic_url ? 
-									 <AvatarEditor
-										ref={this.setEditorRef.bind(this)}
-										image={this.state.prof_pic_url}
-										width={200}
-								        height={200}
-								        color={[255, 255, 255, 0.6]}
-								        scale={1}
-								        borderRadius={100}
-								      />
-								:
-									<img className="profpic-setter" src={active_user_profile ? active_user_profile.prof_pic_url : ''} alt=""/>
-							}
-							<div class="file-field input-field">
-						      <div class="btn tr-green">
-						        <span>Upload new profile picture</span>
-						        <input 
-						        	type="file" 
-						        	onChange={this.handleUpdateProfilePicture.bind(this)} 
-						        	capture>
-						        </input>
-						      </div>
-						      <div class="file-path-wrapper">
-							        <input class="file-path validate" type="text">
-							        </input>
-							      </div>
-						    </div>
-						</div>
+						<EditProfilePicture
+							active_user_profile={active_user_profile}
+							{...this.props}
+						></EditProfilePicture>
 						<form method="post">
 							<p><b>Upload Resume</b></p>
 							<div class="file-field input-field">

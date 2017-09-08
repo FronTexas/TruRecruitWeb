@@ -44,6 +44,7 @@
     "react-copy-to-clipboard": "^5.0.0",
     "react-cropper": "^1.0.0",
     "react-dom": "^0.14.6",
+    "react-form": "^1.3.0",
     "react-image-crop": "^2.0.8",
     "react-materialize": "^1.0.8",
     "react-pdf": "^1.8.3",

@@ -71,12 +71,29 @@ class AppContainer extends React.Component{
 		return (
 			<BrowserRouter history={history}>
 				<Layout {...this.props}>
+
+					<RouteWrapper
+						component={Dashboard}
+						path="/dashboard" 
+						redirect_to="/sign_in"  
+						should_redirect = {!_firebase.isAuthenticated() && !currently_not_need_this_check}
+						hoc_props={this.props} 
+						></RouteWrapper>	
+
 					<RouteWrapper
 						exact
 						component={Landing}
 						path="/" 
 						redirect_to="/dashboard"  
 						should_redirect = {_firebase.isAuthenticated()}
+						hoc_props={this.props} 
+						></RouteWrapper>
+
+					<RouteWrapper
+						component={ProfileSetUp}
+						path="/profile_set_up" 
+						redirect_to="/sign_in"  
+						should_redirect = {!_firebase.isAuthenticated() && !currently_not_need_this_check}
 						hoc_props={this.props} 
 						></RouteWrapper>
 
@@ -94,23 +111,8 @@ class AppContainer extends React.Component{
 						redirect_to="/dashboard"  
 						should_redirect = {_firebase.isAuthenticated()}
 						hoc_props={this.props} 
-						></RouteWrapper>
-
-					<RouteWrapper
-						component={ProfileSetUp}
-						path="/profile_set_up" 
-						redirect_to="/sign_in"  
-						should_redirect = {!_firebase.isAuthenticated() && !currently_not_need_this_check}
-						hoc_props={this.props} 
-						></RouteWrapper>
-
-					<RouteWrapper
-						component={Dashboard}
-						path="/dashboard" 
-						redirect_to="/sign_in"  
-						should_redirect = {!_firebase.isAuthenticated() && !currently_not_need_this_check}
-						hoc_props={this.props} 
-						></RouteWrapper>		
+						></RouteWrapper>	
+	
 				</Layout>
 			</BrowserRouter>
 		)
