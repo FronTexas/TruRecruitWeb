@@ -8,11 +8,25 @@ import EditProfilePicture from '../components/EditProfilePicture';
 import EducationInputForm from '../components/EducationInputForm';
 import EmploymentInputForm from '../components/EmploymentInputForm';
 import Select from '../components/Select';
+import TextField from '../components/TextField'
+import update from 'immutability-helper';
+import {run,ruleRunner} from '../lib/Validation/ruleRunner'
+import {required} from '../lib/Validation/rules';
+import $ from 'jquery'
+
+const fieldValidations = [
+	ruleRunner("summary","Summary",required)
+]
 
 class ProfileSetUp extends React.Component{
 	constructor(props){
 		super(props);
+		this.handleFieldChanged = this.handleFieldChanged.bind(this);
+		this.handleSubmitClicked = this.handleSubmitClicked.bind(this);
+		this.errorFor = this.errorFor.bind(this);
 		this.state = {
+			showErrors: false,
+			validationErrors:{}
 		};
 	}
 
@@ -20,11 +34,19 @@ class ProfileSetUp extends React.Component{
 		this.props.fetchActiveUserProfile();
 	}
 
+	componentWillMount(){
+		this.setState({validationErrors: run(this.state,fieldValidations)});
+	}
+
 	componentWillReceiveProps(nextProps){
 		var {upload_file_success,update_user_profile_success,active_user_profile} = nextProps;
 		
 		if(active_user_profile != null){
-			this.setState({active_user_profile})
+			let new_state = this.state;
+			new_state['active_user_profile'] = active_user_profile;
+			new_state['validationErrors'] = run(new_state['active_user_profile'], fieldValidations);
+			new_state['showErrors'] = true;
+			this.setState(new_state)
 		}
 
 		if(update_user_profile_success){
@@ -39,6 +61,21 @@ class ProfileSetUp extends React.Component{
 		}
 	}
 
+	errorFor(field){
+		return this.state.validationErrors[field] || "";
+	}
+
+	handleFieldChanged(field){
+		return (e) => {
+			let newState = update(this.state,{
+				active_user_profile:{ 
+					[field]: {$set: e.target.value}
+				}
+			});
+			newState.validationErrors = run(newState['active_user_profile'],fieldValidations);
+			this.setState(newState)
+		}
+	}
 
 	handleFileUpload(event){
 		const file = event.target.files[0];
@@ -75,6 +112,12 @@ class ProfileSetUp extends React.Component{
 		
 	}
 
+	handleSubmitClicked(){
+		this.setState({showErrors:true});
+		if($.isEmptyObject(this.state.validationErrors) === false) return null;
+		// handle success
+	}
+
 	/*
 		- Replace each field with react-form
 		- Handle data validation 
@@ -84,7 +127,6 @@ class ProfileSetUp extends React.Component{
 
 	render(){
 		const {active_user_profile} = this.state
-		console.log('active_user_profile in ProfileSetUp = ',active_user_profile)
 		const phone_number = null;
 		if (active_user_profile){
 			const phone_number = active_user_profile.phone_number;
@@ -111,7 +153,20 @@ class ProfileSetUp extends React.Component{
 						      </div>
 						    </div>
 							<p><b>Summary</b></p>
-							<input value={active_user_profile ? active_user_profile.summary : ''} onChange={this.handleInputChange.bind(this)} type="text" name="summary" id="" cols="70" rows="2" placeholder="Graduating December 2017 from UT Austin" maxLength="140" required="required"></input>
+							<TextField
+								id="summary"
+								type="text"
+								name="summary"
+								value={active_user_profile ? active_user_profile.summary : ''} 
+								onFieldChanged={this.handleFieldChanged("summary")}
+								cols="70"
+								row="2"
+								placeholder="Graduating December 2017 from UT Austin" 
+								maxLength="140"
+								errorText={this.errorFor("summary")}
+								showError={this.state.showErrors}
+							>
+							</TextField>
 
 							<div className="input-phone-number">
 								<p><b>Phone Number</b></p>
@@ -131,7 +186,7 @@ class ProfileSetUp extends React.Component{
 							<p><b>Portfolio Link</b></p>
 							<input value={active_user_profile ? active_user_profile.portfolio_link : ''} onChange={this.handleInputChange.bind(this)} type="text" name="portfolio_link" id="" cols="30" rows="1" placeholder="link to portfolio">
 							</input>
-							<button type="button" class="waves-effect waves-light btn tr-green" onClick={this.handleSaveClick.bind(this)}>{this.state.show_saved_text ? 'Saved!' : 'Save'}</button>
+							<button type="button" class="waves-effect waves-light btn tr-green" onClick={this.handleSubmitClicked}>{this.state.show_saved_text ? 'Saved!' : 'Save'}</button>
 						</form>
 					</div>
 				</div>
