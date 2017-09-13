@@ -9,7 +9,7 @@ export default class TextField extends Component{
 	}
 
 	shouldDisplayError(){
-		return this.props.showError && this.props.errorText !== "";
+		return this.props.showError && this.props.errorText && this.props.errorText !== "";
 	}
 
 	render(){

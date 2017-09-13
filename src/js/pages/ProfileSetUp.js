@@ -10,17 +10,22 @@ import EmploymentInputForm from '../components/EmploymentInputForm';
 import Select from '../components/Select';
 import TextField from '../components/TextField'
 import update from 'immutability-helper';
-import {run,ruleRunner} from '../lib/Validation/ruleRunner'
+import {run,ruleRunner,ruleRunnerOnFormArray} from '../lib/Validation/ruleRunner'
 import {required} from '../lib/Validation/rules';
 import $ from 'jquery'
 
 const fieldValidations = [
-	ruleRunner("summary","Summary",required)
+	ruleRunner("summary","Summary",required),
+	ruleRunnerOnFormArray("educations","school_name","School name",required),
+	ruleRunnerOnFormArray("educations","school_degree","Degree",required),
+	ruleRunnerOnFormArray("educations","school_area_of_study","Area of study",required)
 ]
 
 class ProfileSetUp extends React.Component{
 	constructor(props){
 		super(props);
+		this.handleAddMoreFields = this.handleAddMoreFields.bind(this);
+		this.handleFieldsArrayChange = this.handleFieldsArrayChange.bind(this);
 		this.handleFieldChanged = this.handleFieldChanged.bind(this);
 		this.handleSubmitClicked = this.handleSubmitClicked.bind(this);
 		this.errorFor = this.errorFor.bind(this);
@@ -32,10 +37,6 @@ class ProfileSetUp extends React.Component{
 
 	componentDidMount(){
 		this.props.fetchActiveUserProfile();
-	}
-
-	componentWillMount(){
-		this.setState({validationErrors: run(this.state,fieldValidations)});
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -61,8 +62,36 @@ class ProfileSetUp extends React.Component{
 		}
 	}
 
+	errorForArrayForm(field){
+		return this.state.validationErrors[field] || [];
+	}
+
 	errorFor(field){
 		return this.state.validationErrors[field] || "";
+	}
+
+	handleAddMoreFields(field,defaultVal){
+		return (e)=>{
+			if(!this.state.active_user_profile) return
+			let fields = this.state.active_user_profile[field];
+			fields.push(defaultVal)
+			this.setState({active_user_profile:{[field]:fields}})
+		}
+	}
+
+	handleFieldsArrayChange(field_name){
+		return (index)=>{
+				return (e) => {
+					let name = e.target.name;
+					let value = e.target.value;
+					let newState = this.state; 
+					let newFields = newState['active_user_profile'][field_name];
+					newFields[index][name] = value;
+					newState['active_user_profile'][field_name] = newFields
+					newState.validationErrors = run(newState['active_user_profile'],fieldValidations);
+					this.setState(newState)
+				}
+		}
 	}
 
 	handleFieldChanged(field){
@@ -115,18 +144,17 @@ class ProfileSetUp extends React.Component{
 	handleSubmitClicked(){
 		this.setState({showErrors:true});
 		if($.isEmptyObject(this.state.validationErrors) === false) return null;
-		// handle success
+		console.log('PASSED VALIDATION, state = ',this.state);
 	}
 
 	/*
-		- Replace each field with react-form
 		- Handle data validation 
 		- Handle state's update 
 		- Handle data posting to firebase 
 	*/
 
 	render(){
-		const {active_user_profile} = this.state
+		const {active_user_profile} = this.state;
 		const phone_number = null;
 		if (active_user_profile){
 			const phone_number = active_user_profile.phone_number;
@@ -140,7 +168,7 @@ class ProfileSetUp extends React.Component{
 							active_user_profile={active_user_profile}
 							{...this.props}
 						></EditProfilePicture>
-						<form method="post">
+						<div>
 							<p><b>Upload Resume</b></p>
 							<div class="file-field input-field">
 						      <div class="btn tr-green">
@@ -177,17 +205,27 @@ class ProfileSetUp extends React.Component{
 							</div>
 
 							<p><b>Education</b></p>
-							<EducationInputForm {...this.props} educations = {active_user_profile ?  active_user_profile.educations : null}></EducationInputForm>
+							<EducationInputForm 
+								{...this.props} 
+								educations = {active_user_profile ?  active_user_profile.educations : [{
+									school_begin_school_year: "2017",
+									school_end_school_year: "2017"
+								}]} 
+								onFieldsArrayChange={this.handleFieldsArrayChange("educations")}
+								onAddMoreFields={this.handleAddMoreFields("educations",{
+									school_begin_school_year: "2017",
+									school_end_school_year: "2017"
+								})}
+								errorTexts={this.errorForArrayForm("educations")}
+								showError={this.state.showErrors}
+								></EducationInputForm>
 
-							<p><b>Employment History</b></p>
-
-							<EmploymentInputForm {...this.props} employments={active_user_profile ? active_user_profile.employments : null}></EmploymentInputForm>
 
 							<p><b>Portfolio Link</b></p>
 							<input value={active_user_profile ? active_user_profile.portfolio_link : ''} onChange={this.handleInputChange.bind(this)} type="text" name="portfolio_link" id="" cols="30" rows="1" placeholder="link to portfolio">
 							</input>
 							<button type="button" class="waves-effect waves-light btn tr-green" onClick={this.handleSubmitClicked}>{this.state.show_saved_text ? 'Saved!' : 'Save'}</button>
-						</form>
+						</div>
 					</div>
 				</div>
 			</div>
