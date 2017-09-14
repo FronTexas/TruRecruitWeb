@@ -16,6 +16,7 @@ import $ from 'jquery'
 
 const fieldValidations = [
 	ruleRunner("summary","Summary",required),
+	ruleRunner("resume_url","Resume",required),
 	ruleRunnerOnFormArray("educations","school_name","School name",required),
 	ruleRunnerOnFormArray("educations","school_degree","Degree",required),
 	ruleRunnerOnFormArray("educations","school_area_of_study","Area of study",required)
@@ -58,6 +59,8 @@ class ProfileSetUp extends React.Component{
 		}
 
 		if(upload_file_success && update_user_profile_success){
+			this.props.resetUploadStatus();
+			this.props.resetUpdateUserProfileStatus();
 			this.props.push('/dashboard');
 		}
 	}
@@ -106,13 +109,12 @@ class ProfileSetUp extends React.Component{
 		}
 	}
 
-	handleFileUpload(event){
+	handleFileUploadChange(event){
 		const file = event.target.files[0];
-		this.setState({
-			private:{
-				resume: file
-			}
-		})
+		let newState = this.state;
+		newState['active_user_profile']['resume_url'] = file;
+		newState['validationErrors'] = run(newState['active_user_profile'],fieldValidations);
+		this.setState(newState);
 	}
 
 	handleInputChange(event){
@@ -135,23 +137,20 @@ class ProfileSetUp extends React.Component{
 
 	handleSaveClick(event){
 		this.props.updateUserProfile(this.state.active_user_profile);
-		if(this.state.resume){
-			this.props.uploadResume(this.state.resume);
+		if(this.state.active_user_profile.resume_url){
+			this.props.uploadResume(this.state.active_user_profile.resume_url);
 		}
 		
 	}
 
 	handleSubmitClicked(){
 		this.setState({showErrors:true});
+		console.log('valudationErrors = ',this.state.validationErrors);
 		if($.isEmptyObject(this.state.validationErrors) === false) return null;
-		console.log('PASSED VALIDATION, state = ',this.state);
+		if(this.state.active_user_profile && this.state.active_user_profile.resume_url){
+			this.props.uploadResume(this.state.active_user_profile.resume_url);
+		}
 	}
-
-	/*
-		- Handle data validation 
-		- Handle state's update 
-		- Handle data posting to firebase 
-	*/
 
 	render(){
 		const {active_user_profile} = this.state;
@@ -173,8 +172,14 @@ class ProfileSetUp extends React.Component{
 							<div class="file-field input-field">
 						      <div class="btn tr-green">
 						        <span>File</span>
-						        <input type="file" onChange={this.handleFileUpload.bind(this)}></input>
 						      </div>
+						      <TextField
+						      	type="file"
+						      	errorText={this.errorFor("resume_url")}
+      							showError={this.state.showErrors}
+						      	onFieldChanged={this.handleFileUploadChange.bind(this)}
+						      >
+						      </TextField>
 						      <div class="file-path-wrapper">
 						        <input class="file-path validate" type="text">
 						        </input>

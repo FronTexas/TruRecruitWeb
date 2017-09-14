@@ -76,6 +76,22 @@ export function fetchRecruiterWhoScannedYou(){
 	}
 }
 
+export function resetUploadStatus(){
+	return (dispatch,getState)=>{
+		dispatch({
+			type:"RESET_UPLOAD_STATUS"
+		})
+	}
+}
+
+export function resetUpdateUserProfileStatus(){
+	return (dispatch,getState)=>{
+		dispatch({
+			type:"RESET_UPDATE_USER_PROFILE_STATUS"
+		})
+	}
+}
+
 export function setActiveUser(uid){
 	return (dispatch,getState)=>{
 		dispatch({
@@ -153,11 +169,14 @@ export function uploadResume(file){
 		const {firebaseRef,active_user} = getState();
 		var storageRef = firebaseRef.storage().ref();
 		var active_userStorageRef = storageRef.child(`attendees/${active_user}/resume.pdf`);
-
 		active_userStorageRef.put(file).then((snap)=>{
-			dispatch({
-				type:"FILE_UPLOAD_SUCCESS"
-			})
+			if (snap.downloadURL){
+				updateUserProfile({'resume_url':snap.downloadURL})(dispatch,getState)
+				dispatch({
+					type:"FILE_UPLOAD_SUCCESS",
+					resume_url: snap.downloadURL
+				})
+			}
 		})
 	}
 }

@@ -18,8 +18,8 @@ export default class TextField extends Component{
 				<input 
 					class={this.shouldDisplayError() ? 'invalid' : ''}
 					type={this.props.type || "text"}
-					placeholder={this.props.placeholder}
-					value={this.props.value}
+					placeholder={this.props.placeholder || ""}
+					value={this.props.value || null}
 					onChange={this.props.onFieldChanged}
 					{...this.props}/>
 				<OptionallyDisplayed display={this.shouldDisplayError()}>
@@ -33,6 +33,8 @@ export default class TextField extends Component{
 }
 
 TextField.propTypes = {
+	errorText: PropTypes.string,
 	showError: PropTypes.bool.isRequired,
-	onFieldChanged: PropTypes.func.isRequired
+	type: PropTypes.string,
+	onFieldChanged: PropTypes.func.isRequired,
 }

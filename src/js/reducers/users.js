@@ -17,6 +17,9 @@ export const active_user_profile = createReducer(null,{
 })
 
 export const update_user_profile_success = createReducer(false,{
+	["RESET_UPDATE_USER_PROFILE_STATUS"](state,action){
+		return false;
+	},
 	["UPDATE_USER_PROFILE_SUCCESS"](state,action){
 		return true;
 	},
@@ -38,6 +41,9 @@ export const resume_url = createReducer(null,{
 })
 
 export const upload_file_success = createReducer(false,{
+	["RESET_UPLOAD_STATUS"](state,action){
+		return false;
+	},
 	["FILE_UPLOAD_SUCCESS"](state,action){
 		return true;
 	},
