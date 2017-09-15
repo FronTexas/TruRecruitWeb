@@ -36,7 +36,7 @@ export default class EducationInputForm extends Component{
 							key={`school_begin_school_year${index}`} 
 							defaultValue={2017} 
 							value={education.school_begin_school_year} 
-							onChange={this.props.onFieldsArrayChange} 
+							onChange={this.props.onFieldsArrayChange(index)} 
 							name="school_begin_school_year" 
 							class="years">
 						</Select>
@@ -47,7 +47,7 @@ export default class EducationInputForm extends Component{
 							key={`school_end_school_year${index}`}  
 							defaultValue={2017} 
 							value={education.school_end_school_year} 
-							onChange={this.props.onFieldsArrayChange}  
+							onChange={this.props.onFieldsArrayChange(index)}  
 							name="school_end_school_year" class="years" ></Select>
 					</div>
 
