@@ -24,17 +24,19 @@ import ScratchPad from './ScratchPad';
 
 const currently_not_need_this_check = false;
 
-const RouteWrapper = ({component:Component,...rest,hoc_props,should_redirect,redirect_to}) => (
-	<Route {...rest} render={props=>	
-			!should_redirect ? (
-				<Component {...hoc_props} {...props} ></Component>
-			) : (
-				<Redirect to={{
-					pathname:redirect_to,
-					state: {from:props.location}
-				}}>
-				</Redirect>
-			)
+const RouteWrapper = ({component:Component,...rest,hoc_props,has_to_be_authenticated,redirect_to,path,history}) => (
+	<Route {...rest} render={props => {
+			if(has_to_be_authenticated == _firebase.isAuthenticated()){
+				return (<Component {...hoc_props} {...props} history={history?history:null} ></Component>)
+			}else{
+				return (
+					<Redirect to={{
+						pathname:redirect_to,
+						state: {from:props.location}
+					}}>
+					</Redirect>)
+			}
+		}
 	}></Route>
 );
 
@@ -78,7 +80,7 @@ class AppContainer extends React.Component{
 						component={Dashboard}
 						path="/dashboard" 
 						redirect_to="/sign_in"  
-						should_redirect = {!_firebase.isAuthenticated() && !currently_not_need_this_check}
+						has_to_be_authenticated = {true}
 						hoc_props={this.props} 
 						></RouteWrapper>	
 
@@ -87,7 +89,7 @@ class AppContainer extends React.Component{
 						component={Landing}
 						path="/" 
 						redirect_to="/dashboard"  
-						should_redirect = {_firebase.isAuthenticated()}
+						has_to_be_authenticated = {false}
 						hoc_props={this.props} 
 						></RouteWrapper>
 
@@ -95,7 +97,7 @@ class AppContainer extends React.Component{
 						component={ProfileSetUp}
 						path="/profile_set_up" 
 						redirect_to="/sign_in"  
-						should_redirect = {!_firebase.isAuthenticated() && !currently_not_need_this_check}
+						has_to_be_authenticated = {true}
 						hoc_props={this.props} 
 						></RouteWrapper>
 
@@ -103,7 +105,7 @@ class AppContainer extends React.Component{
 						component={SignIn}
 						path="/sign_in" 
 						redirect_to="/dashboard"  
-						should_redirect = {_firebase.isAuthenticated()}
+						has_to_be_authenticated = {false}
 						hoc_props={this.props} 
 						></RouteWrapper>
 
@@ -111,14 +113,14 @@ class AppContainer extends React.Component{
 						component={SignUp}
 						path="/sign_up" 
 						redirect_to="/dashboard"  
-						should_redirect = {_firebase.isAuthenticated()}
-						hoc_props={this.props} 
+						has_to_be_authenticated = {false}
+						hoc_props={this.props}
 						></RouteWrapper>
 
 					<RouteWrapper
 						component={ScratchPad}
 						path="/scratch_pad" 
-						should_redirect = {false}
+						has_to_be_authenticated = {false}
 						hoc_props={this.props} 
 						></RouteWrapper>		
 	
