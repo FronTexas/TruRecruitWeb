@@ -11,11 +11,10 @@ export default class EducationInputForm extends Component{
 		super(props);
 	}
 
-
 	render(){
 		const educationInputView = this.props.educations.map((education,index)=>{
 			return (
-				<div>
+				<div key={index}>
 					<label for="school">School</label>
 					<InputWithValidation 
 						value={education.school_name} 
@@ -45,7 +44,6 @@ export default class EducationInputForm extends Component{
 					<div class="input-field col s12 m6">
 						<Select 
 							options = {_.range(1990,2030)} 
-							id={index} 
 							key={`school_end_school_year${index}`}  
 							defaultValue={2017} 
 							value={education.school_end_school_year} 
@@ -71,7 +69,6 @@ export default class EducationInputForm extends Component{
 					<label for="area_of_study">Area of Study</label>
 					<InputWithValidation 
 						value={education.school_area_of_study} 
-						id={index} 
 						key={`school_area_of_study${index}`}  
 						onFieldChanged={this.props.onFieldsArrayChange(index)} 
 						showError={this.props.showError}

@@ -57,10 +57,31 @@ export const ruleRunner = (field,name,...validations) => {
 	};
 }
 
+/*
+	input: 
+		- field: the particular field in the state (that have value of type array) that you want to evaluate. e.g. "educations" -> will give you array of "education"
+		- fields_path: the particular field in  the array that is referred by state[field]. e.g. "school_name" in {educations:{school_name: ""}}
+		- name: The friendly name that the error message rely on. e.g. "School Name"
+		- validations: The list of validations that each of the fields_path has to pass
+	output: 
+		- an object with 'field' as a key and error_message_objects as a value 
+		- e.g. 
+			{
+				educations: // the 'field'
+					{
+						school_name: "School Name is required",       // These two are the error_message_objects 
+						school_degree: "School Degree is required"    //
+					} 
+			}
+*/
+
 export const ruleRunnerOnFormArray = (field,fields_path,name,...validations) => {
 	return (state) => {
 		let form_array_datas = state[field];
 		var error_message_objects = {};
+		if(!form_array_datas || form_array_datas.length == 0){
+				form_array_datas=[{}]
+			}
 		for (let [i,data] of form_array_datas.entries()){
 			for (let v of validations){
 				let value_to_evaluate = _get(data,fields_path)

@@ -28,15 +28,18 @@ class ProfileSetUp extends React.Component{
 		this.handleAddMoreFields = this.handleAddMoreFields.bind(this);
 		this.handleFieldsArrayChange = this.handleFieldsArrayChange.bind(this);
 		this.handleFieldChanged = this.handleFieldChanged.bind(this);
-		this.handleSubmitClicked = this.handleSubmitClicked.bind(this);
+		this.handleSaveClick = this.handleSaveClick.bind(this);
+
 		this.errorFor = this.errorFor.bind(this);
 		this.state = {
 			showErrors: false,
-			validationErrors:{}
+			validationErrors:{},
 		};
 	}
 
 	componentDidMount(){
+		// Just when the ProfileSetUp is mounted, it has to run validation againts empty object so that every field has error
+		this.setState({validationErrors: run({}, fieldValidations)});
 		this.props.fetchActiveUserProfile();
 	}
 
@@ -47,7 +50,9 @@ class ProfileSetUp extends React.Component{
 			let new_state = this.state;
 			new_state['active_user_profile'] = active_user_profile;
 			new_state['validationErrors'] = run(new_state['active_user_profile'], fieldValidations);
-			new_state['showErrors'] = true;
+			if(active_user_profile.is_profile_set_up_already) {
+				new_state['showErrors'] = true;
+			}
 			this.setState(new_state)
 		}
 
@@ -136,19 +141,16 @@ class ProfileSetUp extends React.Component{
 	}
 
 	handleSaveClick(event){
-		this.props.updateUserProfile(this.state.active_user_profile);
-		if(this.state.active_user_profile.resume_url){
-			this.props.uploadResume(this.state.active_user_profile.resume_url);
-		}
-		
-	}
-
-	handleSubmitClicked(){
 		this.setState({showErrors:true});
-		console.log('valudationErrors = ',this.state.validationErrors);
+		console.log('validationErrors = ',this.state.validationErrors);
 		if($.isEmptyObject(this.state.validationErrors) === false) return null;
-		if(this.state.active_user_profile && this.state.active_user_profile.resume_url){
-			this.props.uploadResume(this.state.active_user_profile.resume_url);
+
+		let active_user_profile_to_be_dispatched = this.state.active_user_profile;
+		active_user_profile['is_profile_set_up_already'] = true;
+		this.props.updateUserProfile(active_user_profile_to_be_dispatched);
+		
+		if(active_user_profile_to_be_dispatched.resume_url){
+			this.props.uploadResume(active_user_profile_to_be_dispatched.resume_url);
 		}
 	}
 
@@ -176,15 +178,14 @@ class ProfileSetUp extends React.Component{
       							showError={this.state.showErrors}
 						      	onFieldChanged={this.handleFileUploadChange.bind(this)}
 						      	>
-						      	<div class="btn tr-green">
+						      </InputWithValidation>
+						      <div class="btn tr-green">
 							        <span>File</span>
 							      </div>
 							      <div class="file-path-wrapper">
 							        <input class="file-path validate" type="text">
 							        </input>
-						      	</div>
-						      </InputWithValidation>
-						      
+						      </div>
 						    </div>
 							<p><b>Summary</b></p>
 
@@ -208,16 +209,16 @@ class ProfileSetUp extends React.Component{
 								<ReactPhoneInput 
 									value={active_user_profile ? active_user_profile.phone_number : ''} 
 									defaultCountry={'us'} 
-									onChange={this.handlePhoneNumberChange.bind(this)}></ReactPhoneInput>,
+									onChange={this.handlePhoneNumberChange.bind(this)}></ReactPhoneInput>
 							</div>
 
 							<p><b>Education</b></p>
 							<EducationInputForm 
 								{...this.props} 
-								educations = {active_user_profile ?  active_user_profile.educations : [{
+								educations = {active_user_profile && active_user_profile.educations ?  active_user_profile.educations : [{
 									school_begin_school_year: "2017",
 									school_end_school_year: "2017"
-								}]} 
+								}]} 	
 								onFieldsArrayChange={this.handleFieldsArrayChange("educations")}
 								onAddMoreFields={this.handleAddMoreFields("educations",{
 									school_begin_school_year: "2017",
@@ -230,7 +231,7 @@ class ProfileSetUp extends React.Component{
 							<p><b>Portfolio Link</b></p>
 							<input value={active_user_profile ? active_user_profile.portfolio_link : ''} onChange={this.handleInputChange.bind(this)} type="text" name="portfolio_link" id="" cols="30" rows="1" placeholder="link to portfolio">
 							</input>
-							<button type="button" class="waves-effect waves-light btn tr-green" onClick={this.handleSubmitClicked}>{this.state.show_saved_text ? 'Saved!' : 'Save'}</button>
+							<button type="button" class="waves-effect waves-light btn tr-green" onClick={this.handleSaveClick}>{this.state.show_saved_text ? 'Saved!' : 'Save'}</button>
 						</div>
 					</div>
 				</div>
