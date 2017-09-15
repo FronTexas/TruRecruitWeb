@@ -182,14 +182,15 @@ class ProfileSetUp extends React.Component{
       							showError={this.state.showErrors}
 						      	onFieldChanged={this.handleFileUploadChange.bind(this)}
 						      	>
-						      </InputWithValidation>
-						      <div class="btn tr-green">
+						      	<div class="btn tr-green">
 							        <span>File</span>
 							      </div>
 							      <div class="file-path-wrapper">
 							        <input class="file-path validate" type="text">
 							        </input>
-						      </div>
+						      	</div>
+						      </InputWithValidation>
+						      
 						    </div>
 							<p><b>Summary</b></p>
 
