@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import _ from 'underscore';
 import Select from './Select';
-import TextField from '../components/TextField';
+import InputWithValidation from '../components/InputWithValidation';
 
 export default class EducationInputForm extends Component{
 	constructor(props){
@@ -17,7 +17,7 @@ export default class EducationInputForm extends Component{
 			return (
 				<div>
 					<label for="school">School</label>
-					<TextField 
+					<InputWithValidation 
 						value={education.school_name} 
 						key={`school_name${index}`} 
 						onFieldChanged={this.props.onFieldsArrayChange(index)} 
@@ -26,7 +26,7 @@ export default class EducationInputForm extends Component{
 						type="text" 
 						name="school_name" 
 						id="" cols="70" rows="1" placeholder="School you go to" maxLength="140" required="required">
-					</TextField>
+					</InputWithValidation>
 
 					<label for="school_date">Dates Attended</label>
 					<br/>
@@ -54,7 +54,7 @@ export default class EducationInputForm extends Component{
 					</div>
 
 					<label for="degree">Degree</label>
-					<TextField 
+					<InputWithValidation 
 						value={education.school_degree} 
 						key={`school_degree_${index}`}  
 						onFieldChanged={this.props.onFieldsArrayChange(index)} 
@@ -66,10 +66,10 @@ export default class EducationInputForm extends Component{
 						cols="70" rows="1" 
 						placeholder="Degree" 
 						maxLength="140" >
-					</TextField>
+					</InputWithValidation>
 
 					<label for="area_of_study">Area of Study</label>
-					<TextField 
+					<InputWithValidation 
 						value={education.school_area_of_study} 
 						id={index} 
 						key={`school_area_of_study${index}`}  
@@ -83,7 +83,7 @@ export default class EducationInputForm extends Component{
 						rows="1" 
 						placeholder="Area of Study" 
 						maxLength="140">
-					</TextField>
+					</InputWithValidation>
 					{index != this.props.educations.length -1  ? <hr/> : ''}
 				</div>
 			)

@@ -20,6 +20,8 @@ import SignIn from './SignIn';
 import SignUp from './Signup';
 import UidProvider from '../components/UidProvider';
 
+import ScratchPad from './ScratchPad';
+
 const currently_not_need_this_check = false;
 
 const RouteWrapper = ({component:Component,...rest,hoc_props,should_redirect,redirect_to}) => (
@@ -111,7 +113,14 @@ class AppContainer extends React.Component{
 						redirect_to="/dashboard"  
 						should_redirect = {_firebase.isAuthenticated()}
 						hoc_props={this.props} 
-						></RouteWrapper>	
+						></RouteWrapper>
+
+					<RouteWrapper
+						component={ScratchPad}
+						path="/scratch_pad" 
+						should_redirect = {false}
+						hoc_props={this.props} 
+						></RouteWrapper>		
 	
 				</Layout>
 			</BrowserRouter>

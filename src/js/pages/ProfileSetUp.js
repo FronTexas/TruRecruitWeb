@@ -8,7 +8,7 @@ import EditProfilePicture from '../components/EditProfilePicture';
 import EducationInputForm from '../components/EducationInputForm';
 import EmploymentInputForm from '../components/EmploymentInputForm';
 import Select from '../components/Select';
-import TextField from '../components/TextField'
+import InputWithValidation from '../components/InputWithValidation'
 import update from 'immutability-helper';
 import {run,ruleRunner,ruleRunnerOnFormArray} from '../lib/Validation/ruleRunner'
 import {required} from '../lib/Validation/rules';
@@ -170,23 +170,25 @@ class ProfileSetUp extends React.Component{
 						<div>
 							<p><b>Upload Resume</b></p>
 							<div class="file-field input-field">
-						      <div class="btn tr-green">
-						        <span>File</span>
-						      </div>
-						      <TextField
+						      <InputWithValidation
 						      	type="file"
 						      	errorText={this.errorFor("resume_url")}
       							showError={this.state.showErrors}
 						      	onFieldChanged={this.handleFileUploadChange.bind(this)}
-						      >
-						      </TextField>
-						      <div class="file-path-wrapper">
-						        <input class="file-path validate" type="text">
-						        </input>
-						      </div>
+						      	>
+						      	<div class="btn tr-green">
+							        <span>File</span>
+							      </div>
+							      <div class="file-path-wrapper">
+							        <input class="file-path validate" type="text">
+							        </input>
+						      	</div>
+						      </InputWithValidation>
+						      
 						    </div>
 							<p><b>Summary</b></p>
-							<TextField
+
+							<InputWithValidation
 								id="summary"
 								type="text"
 								name="summary"
@@ -199,7 +201,7 @@ class ProfileSetUp extends React.Component{
 								errorText={this.errorFor("summary")}
 								showError={this.state.showErrors}
 							>
-							</TextField>
+							</InputWithValidation>
 
 							<div className="input-phone-number">
 								<p><b>Phone Number</b></p>
@@ -224,7 +226,6 @@ class ProfileSetUp extends React.Component{
 								errorTexts={this.errorForArrayForm("educations")}
 								showError={this.state.showErrors}
 								></EducationInputForm>
-
 
 							<p><b>Portfolio Link</b></p>
 							<input value={active_user_profile ? active_user_profile.portfolio_link : ''} onChange={this.handleInputChange.bind(this)} type="text" name="portfolio_link" id="" cols="30" rows="1" placeholder="link to portfolio">

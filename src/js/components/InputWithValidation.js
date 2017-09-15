@@ -2,7 +2,7 @@ import React , {Component} from 'react';
 import OptionallyDisplayed from './OptionallyDisplayed';
 import PropTypes from 'prop-types';
 
-export default class TextField extends Component{
+export default class InputWithValidation extends Component{
 	constructor(props){
 		super(props);
 		this.shouldDisplayError = this.shouldDisplayError.bind(this);
@@ -24,7 +24,7 @@ export default class TextField extends Component{
 					{...this.props}/>
 				<OptionallyDisplayed display={this.shouldDisplayError()}>
 				  <div>
-		          	<label class="red-text">{this.props.errorText}</label>
+		          	<p class="red-text validation-text">{this.props.errorText}</p>
 		          </div>
 				</OptionallyDisplayed>
 			</div>
@@ -32,7 +32,7 @@ export default class TextField extends Component{
 	}
 }
 
-TextField.propTypes = {
+InputWithValidation.propTypes = {
 	errorText: PropTypes.string,
 	showError: PropTypes.bool.isRequired,
 	type: PropTypes.string,

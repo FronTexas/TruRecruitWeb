@@ -679,6 +679,9 @@ nav{
 	background: linear-gradient(50deg, #009B7C   8%, #00BC96 83%); /*background:#2B394E;*/
 	border-radius: 5px 5px 0 0 ; }
 
+.validation-text{
+	display: 'block'
+}
 
 .vertical-center {
 	display: flex;
