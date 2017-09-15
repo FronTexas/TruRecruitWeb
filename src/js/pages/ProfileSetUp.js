@@ -93,7 +93,11 @@ class ProfileSetUp extends React.Component{
 					let name = e.target.name;
 					let value = e.target.value;
 					let newState = this.state; 
-					let newFields = newState['active_user_profile'][field_name];
+					/* 
+						If the field with key of 'field_name' does not exist in active user profile,
+						it defaulted to array with with one empty object
+					*/
+					let newFields = newState['active_user_profile'][field_name] || [{}];
 					newFields[index][name] = value;
 					newState['active_user_profile'][field_name] = newFields
 					newState.validationErrors = run(newState['active_user_profile'],fieldValidations);
@@ -146,7 +150,7 @@ class ProfileSetUp extends React.Component{
 		if($.isEmptyObject(this.state.validationErrors) === false) return null;
 
 		let active_user_profile_to_be_dispatched = this.state.active_user_profile;
-		active_user_profile['is_profile_set_up_already'] = true;
+		active_user_profile_to_be_dispatched['is_profile_set_up_already'] = true;
 		this.props.updateUserProfile(active_user_profile_to_be_dispatched);
 		
 		if(active_user_profile_to_be_dispatched.resume_url){
