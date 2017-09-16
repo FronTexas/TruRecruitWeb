@@ -35,7 +35,12 @@ class ResumeContainer extends Component{
                           <span>Save the QR Code</span>
                        </a>
                     </div>
-                    <div class="printshare-container">
+
+    			</div>
+			</div>
+	)
+    /*
+       <div class="printshare-container">
                        <div class="printshare-button hvr-shadow" onClick={this.textQRCode.bind(this)}>
                           <i class="fa fa-commenting"></i>
                           <span>Text the QR code</span>
@@ -59,9 +64,8 @@ class ResumeContainer extends Component{
                           <span>Email the QR Code</span>
                        </div>
                     </div>
-    			</div>
-			</div>
-	)
+
+    */
 	}
 }
 
