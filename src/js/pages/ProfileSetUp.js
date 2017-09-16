@@ -39,6 +39,12 @@ class ProfileSetUp extends React.Component{
 
 	componentDidMount(){
 		// Just when the ProfileSetUp is mounted, it has to run validation againts empty object so that every field has error
+		this.setState({active_user_profile:{
+			educations:[{
+				school_begin_school_year:2017,
+				school_end_school_year: 2017
+			}]
+		}})
 		this.setState({validationErrors: run({}, fieldValidations)});
 		this.props.fetchActiveUserProfile();
 	}
@@ -47,12 +53,12 @@ class ProfileSetUp extends React.Component{
 		var {upload_file_success,update_user_profile_success,active_user_profile} = nextProps;
 		
 		if(active_user_profile != null){
-			let new_state = this.state;
-			new_state['active_user_profile'] = active_user_profile;
-			new_state['validationErrors'] = run(new_state['active_user_profile'], fieldValidations);
-			if(active_user_profile.is_profile_set_up_already) {
-				new_state['showErrors'] = true;
-			}
+			let new_active_user_profile = Object.assign({},this.state.active_user_profile,active_user_profile);
+			let new_state = update(this.state,{
+				active_user_profile: {$set: new_active_user_profile},
+				showErrors: {$set: new_active_user_profile.is_profile_set_up_already ? true : false}
+			});
+			new_state.validationErrors = run(new_state['active_user_profile'], fieldValidations),
 			this.setState(new_state)
 		}
 
@@ -151,6 +157,7 @@ class ProfileSetUp extends React.Component{
 
 		let active_user_profile_to_be_dispatched = this.state.active_user_profile;
 		active_user_profile_to_be_dispatched['is_profile_set_up_already'] = true;
+		
 		this.props.updateUserProfile(active_user_profile_to_be_dispatched);
 		
 		if(active_user_profile_to_be_dispatched.resume_url){
@@ -234,7 +241,7 @@ class ProfileSetUp extends React.Component{
 								></EducationInputForm>
 
 							<p><b>Portfolio Link</b></p>
-							<input value={active_user_profile ? active_user_profile.portfolio_link : ''} onChange={this.handleInputChange.bind(this)} type="text" name="portfolio_link" id="" cols="30" rows="1" placeholder="link to portfolio">
+								<input value={active_user_profile ? active_user_profile.portfolio_link : ''} onChange={this.handleFieldChanged("portfolio_link")} type="text" name="portfolio_link" id="" cols="30" rows="1" placeholder="link to portfolio">
 							</input>
 							<button type="button" class="waves-effect waves-light btn tr-green" onClick={this.handleSaveClick}>{this.state.show_saved_text ? 'Saved!' : 'Save'}</button>
 						</div>
