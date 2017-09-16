@@ -93,11 +93,18 @@ class Dashboard extends React.Component{
 	    			               		: 
 	    			               		<div></div>
 	    			                }
-	    			               
-	    			                 <SpanBrWrapper class="tr-dark-blue-text large-text"><b>Portfolio</b></SpanBrWrapper>
-	    			                 <div class="portfolio-link-container">
-	    			                     <a href="" class="portfolio-link">{this.state.active_user_profile.portfolio_link}</a>
-	    			                 </div>
+	    			               	
+	    			               	 {
+	    			               	 	this.state.active_user_profile && this.state.active_user_profile.portfolio_link ? 
+	    			               	 	<div>
+		    			                 	<SpanBrWrapper class="tr-dark-blue-text large-text"><b>Portfolio</b></SpanBrWrapper>
+			    			                <div class="portfolio-link-container">
+			    			                     <a href="" class="portfolio-link">{this.state.active_user_profile.portfolio_link}</a>
+			    			                </div>
+	    			                 	</div>
+	    			                 	: 
+	    			                 	''
+	    			               	 }
 	    		               </div>
 				            </div>
 			            </div>
