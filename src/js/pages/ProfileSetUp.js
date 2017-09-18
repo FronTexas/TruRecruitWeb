@@ -7,6 +7,7 @@ import _ from 'underscore';
 import EditProfilePicture from '../components/EditProfilePicture';
 import EducationInputForm from '../components/EducationInputForm';
 import EmploymentInputForm from '../components/EmploymentInputForm';
+import PhoneInput from '../components/PhoneInput';
 import Select from '../components/Select';
 import InputWithValidation from '../components/InputWithValidation'
 import update from 'immutability-helper';
@@ -28,6 +29,7 @@ class ProfileSetUp extends React.Component{
 		this.handleAddMoreFields = this.handleAddMoreFields.bind(this);
 		this.handleFieldsArrayChange = this.handleFieldsArrayChange.bind(this);
 		this.handleFieldChanged = this.handleFieldChanged.bind(this);
+		this.handlePhoneNumberChange = this.handlePhoneNumberChange.bind(this);
 		this.handleSaveClick = this.handleSaveClick.bind(this);
 
 		this.errorFor = this.errorFor.bind(this);
@@ -165,9 +167,10 @@ class ProfileSetUp extends React.Component{
 
 	render(){
 		const {active_user_profile} = this.state;
-		const phone_number = null;
+		let phone_number = ''
 		if (active_user_profile){
-			const phone_number = active_user_profile.phone_number;
+			phone_number = active_user_profile.phone_number;
+			console.log('phone_number = ',phone_number);			
 		}
 		return (
 			<div className="row">
@@ -200,7 +203,6 @@ class ProfileSetUp extends React.Component{
 							<p><b>Summary</b></p>
 
 							<InputWithValidation
-								id="summary"
 								type="text"
 								name="summary"
 								value={active_user_profile ? active_user_profile.summary : ''} 
@@ -216,10 +218,11 @@ class ProfileSetUp extends React.Component{
 
 							<div className="input-phone-number">
 								<p><b>Phone Number</b></p>
-								<ReactPhoneInput 
-									value={active_user_profile ? active_user_profile.phone_number : ''} 
-									defaultCountry={'us'} 
-									onChange={this.handlePhoneNumberChange.bind(this)}></ReactPhoneInput>
+								<PhoneInput
+								value={phone_number ? phone_number : ''}
+								onPhoneNumberChange = {this.handlePhoneNumberChange}
+								>
+								</PhoneInput>
 							</div>
 
 							<p><b>Education</b></p>
