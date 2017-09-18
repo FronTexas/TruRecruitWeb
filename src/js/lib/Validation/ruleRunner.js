@@ -109,7 +109,6 @@ export const run = (state,runners) => {
 		}
 		return Object.assign(memo,next_validation);
 	},{});
-	console.log('aggregated validation objects =',ret)
 	return ret;
 };
 

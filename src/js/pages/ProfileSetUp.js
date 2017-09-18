@@ -1,13 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import ReactPhoneInput from 'react-phone-input';
 
 import _ from 'underscore';
 import EditProfilePicture from '../components/EditProfilePicture';
 import EducationInputForm from '../components/EducationInputForm';
 import EmploymentInputForm from '../components/EmploymentInputForm';
-import PhoneInput from '../components/PhoneInput';
 import Select from '../components/Select';
 import InputWithValidation from '../components/InputWithValidation'
 import update from 'immutability-helper';
@@ -18,6 +16,7 @@ import $ from 'jquery'
 const fieldValidations = [
 	ruleRunner("summary","Summary",required),
 	ruleRunner("resume_url","Resume",required),
+	ruleRunner("phone_number","Phone Number",required),
 	ruleRunnerOnFormArray("educations","school_name","School name",required),
 	ruleRunnerOnFormArray("educations","school_degree","Degree",required),
 	ruleRunnerOnFormArray("educations","school_area_of_study","Area of study",required)
@@ -31,6 +30,11 @@ class ProfileSetUp extends React.Component{
 		this.handleFieldChanged = this.handleFieldChanged.bind(this);
 		this.handlePhoneNumberChange = this.handlePhoneNumberChange.bind(this);
 		this.handleSaveClick = this.handleSaveClick.bind(this);
+		this.formatNumber = this.formatNumber.bind(this);
+
+		this.inputProcessor = {
+			"phone_number": this.formatNumber
+		}
 
 		this.errorFor = this.errorFor.bind(this);
 		this.state = {
@@ -55,7 +59,9 @@ class ProfileSetUp extends React.Component{
 		var {upload_file_success,update_user_profile_success,active_user_profile} = nextProps;
 		
 		if(active_user_profile != null){
+			console.log('active_user_profile = ',active_user_profile);
 			let new_active_user_profile = Object.assign({},this.state.active_user_profile,active_user_profile);
+			console.log('new_active_user_profile = ', new_active_user_profile);
 			let new_state = update(this.state,{
 				active_user_profile: {$set: new_active_user_profile},
 				showErrors: {$set: new_active_user_profile.is_profile_set_up_already ? true : false}
@@ -84,6 +90,27 @@ class ProfileSetUp extends React.Component{
 
 	errorFor(field){
 		return this.state.validationErrors[field] || "";
+	}
+
+	formatNumber(input){
+        // Strip all characters from the input except digits
+        input = input.replace(/\D/g,'');
+
+        // Trim the remaining input to ten characters, to preserve phone number format
+        input = input.substring(0,10);
+
+        // Based upon the length of the string, we add formatting as necessary
+        var size = input.length;
+        if(size == 0){
+                input = input;
+        }else if(size < 4){
+                input = '('+input;
+        }else if(size < 7){
+                input = '('+input.substring(0,3)+') '+input.substring(3,6);
+        }else{
+                input = '('+input.substring(0,3)+') '+input.substring(3,6)+' - '+input.substring(6,10);
+        }
+        return input; 
 	}
 
 	handleAddMoreFields(field,defaultVal){
@@ -117,9 +144,13 @@ class ProfileSetUp extends React.Component{
 
 	handleFieldChanged(field){
 		return (e) => {
+			let value = e.target.value;
+			if (field in this.inputProcessor){
+				value = this.inputProcessor[field](value)
+			}
 			let newState = update(this.state,{
 				active_user_profile:{ 
-					[field]: {$set: e.target.value}
+					[field]: {$set: value}
 				}
 			});
 			newState.validationErrors = run(newState['active_user_profile'],fieldValidations);
@@ -170,7 +201,6 @@ class ProfileSetUp extends React.Component{
 		let phone_number = ''
 		if (active_user_profile){
 			phone_number = active_user_profile.phone_number;
-			console.log('phone_number = ',phone_number);			
 		}
 		return (
 			<div className="row">
@@ -218,11 +248,15 @@ class ProfileSetUp extends React.Component{
 
 							<div className="input-phone-number">
 								<p><b>Phone Number</b></p>
-								<PhoneInput
-								value={phone_number ? phone_number : ''}
-								onPhoneNumberChange = {this.handlePhoneNumberChange}
+								<InputWithValidation
+									type="text"
+									name="phone_number"
+									value={phone_number ? phone_number : ''}
+									onFieldChanged = {this.handleFieldChanged("phone_number")}
+									errorText={this.errorFor("phone_number")}
+									showError={this.state.showErrors}
 								>
-								</PhoneInput>
+								</InputWithValidation>
 							</div>
 
 							<p><b>Education</b></p>
