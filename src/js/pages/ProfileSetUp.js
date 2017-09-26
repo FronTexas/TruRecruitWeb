@@ -31,6 +31,7 @@ class ProfileSetUp extends React.Component{
 		this.handlePhoneNumberChange = this.handlePhoneNumberChange.bind(this);
 		this.handleSaveClick = this.handleSaveClick.bind(this);
 		this.formatNumber = this.formatNumber.bind(this);
+		this.updateStatesActiveUserProfile = this.updateStatesActiveUserProfile.bind(this);
 
 		this.inputProcessor = {
 			"phone_number": this.formatNumber
@@ -52,10 +53,9 @@ class ProfileSetUp extends React.Component{
 		var {upload_file_success,update_user_profile_success,active_user_profile} = nextProps;
 		
 		if(active_user_profile != null){
+			this.updateStatesActiveUserProfile(active_user_profile)
 			this.setState({
-				active_user_profile,
 				showErrors: active_user_profile.is_profile_set_up_already,
-				validationErrors: run(active_user_profile,fieldValidations)
 			})
 		}
 
@@ -107,9 +107,9 @@ class ProfileSetUp extends React.Component{
 			if(!this.state.active_user_profile) return
 			let fields = this.state.active_user_profile[field];
 			fields.push(defaultVal)
-			this.setState({
-				active_user_profile: {...this.state.active_user_profile , [field]:fields}
-			})
+			let new_active_user_profile = {...this.state.active_user_profile,[field]:fields}
+			this.updateStatesActiveUserProfile(new_active_user_profile)
+			
 		}
 	}
 
@@ -118,16 +118,19 @@ class ProfileSetUp extends React.Component{
 				return (e) => {
 					let name = e.target.name;
 					let value = e.target.value;
-					let newState = this.state; 
 					/* 
 						If the field with key of 'field_name' does not exist in active user profile,
 						it defaulted to array with with one empty object
 					*/
-					let newFields = newState['active_user_profile'][field_name] || [{}];
-					newFields[index][name] = value;
-					newState['active_user_profile'][field_name] = newFields
-					newState.validationErrors = run(newState['active_user_profile'],fieldValidations);
-					this.setState(newState)
+					if(!this.state.active_user_profile) return
+					
+					let newFields = this.state.active_user_profile[field_name] || [{}];
+					
+					if(index in newFields){
+						newFields[index][name] = value;
+					}
+					let new_active_user_profile = {...this.state.active_user_profile,[field_name]:newFields};
+					this.updateStatesActiveUserProfile(new_active_user_profile);
 				}
 		}
 	}
@@ -138,22 +141,16 @@ class ProfileSetUp extends React.Component{
 			if (field in this.inputProcessor){
 				value = this.inputProcessor[field](value)
 			}
-			let newState = update(this.state,{
-				active_user_profile:{ 
-					[field]: {$set: value}
-				}
-			});
-			newState.validationErrors = run(newState['active_user_profile'],fieldValidations);
-			this.setState(newState)
+			let new_active_user_profile = {...this.state.active_user_profile,[field]:value}
+			this.updateStatesActiveUserProfile(new_active_user_profile)
 		}
 	}
 
 	handleFileUploadChange(event){
 		const file = event.target.files[0];
-		let newState = this.state;
-		newState['active_user_profile']['resume_url'] = file;
-		newState['validationErrors'] = run(newState['active_user_profile'],fieldValidations);
-		this.setState(newState);
+		if (!this.state.active_user_profile) return 
+		let new_active_user_profile = {...this.state.active_user_profile,['resume_url']:file};
+		this.updateStatesActiveUserProfile(new_active_user_profile);
 	}
 
 	handleInputChange(event){
@@ -167,7 +164,8 @@ class ProfileSetUp extends React.Component{
 	}
 
 	handlePhoneNumberChange(phone){
-		this.setState({active_user_profile:{...active_user_profile,phone_number:phone}});
+		let new_active_user_profile = {...this.state.active_user_profile,phone_number:phone}
+		this.updateStatesActiveUserProfile(new_active_user_profile)
 	}
 
 	handleSaveClick(event){
@@ -183,6 +181,13 @@ class ProfileSetUp extends React.Component{
 		if(active_user_profile_to_be_dispatched.resume_url){
 			this.props.uploadResume(active_user_profile_to_be_dispatched.resume_url);
 		}
+	}
+
+	updateStatesActiveUserProfile(new_active_user_profile){
+		this.setState({
+				active_user_profile: new_active_user_profile,
+				validationErrors:run(new_active_user_profile,fieldValidations)
+		})
 	}
 
 	render(){
