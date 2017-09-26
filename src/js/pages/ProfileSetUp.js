@@ -167,8 +167,7 @@ class ProfileSetUp extends React.Component{
 	}
 
 	handlePhoneNumberChange(phone){
-		let active_user_profile = Object.assign({},this.state.active_user_profile,{phone_number:phone});
-		this.setState({active_user_profile});
+		this.setState({active_user_profile:{...active_user_profile,phone_number:phone}});
 	}
 
 	handleSaveClick(event){
