@@ -39,19 +39,12 @@ class ProfileSetUp extends React.Component{
 		this.errorFor = this.errorFor.bind(this);
 		this.state = {
 			showErrors: false,
-			validationErrors:{},
+			validationErrors:run({}, fieldValidations),
 		};
 	}
 
 	componentDidMount(){
 		// Just when the ProfileSetUp is mounted, it has to run validation againts empty object so that every field has error
-		this.setState({active_user_profile:{
-			educations:[{
-				school_begin_school_year:2017,
-				school_end_school_year: 2017
-			}]
-		}})
-		this.setState({validationErrors: run({}, fieldValidations)});
 		this.props.fetchActiveUserProfile();
 	}
 

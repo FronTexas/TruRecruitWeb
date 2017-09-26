@@ -11,6 +11,16 @@ export default class EducationInputForm extends Component{
 		super(props);
 	}
 
+	componentDidMount(){
+		
+	}
+
+	componentWillReceiveProps(nextProps){
+		if(nextProps.educations){
+			
+		}
+	}
+
 	render(){
 		const educationInputView = this.props.educations.map((education,index)=>{
 			return (
