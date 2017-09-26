@@ -52,13 +52,11 @@ class ProfileSetUp extends React.Component{
 		var {upload_file_success,update_user_profile_success,active_user_profile} = nextProps;
 		
 		if(active_user_profile != null){
-			let new_active_user_profile = Object.assign({},this.state.active_user_profile,active_user_profile);
-			let new_state = update(this.state,{
-				active_user_profile: {$set: new_active_user_profile},
-				showErrors: {$set: new_active_user_profile.is_profile_set_up_already ? true : false}
-			});
-			new_state.validationErrors = run(new_state['active_user_profile'], fieldValidations),
-			this.setState(new_state)
+			this.setState({
+				active_user_profile,
+				showErrors: active_user_profile.is_profile_set_up_already,
+				validationErrors: run(active_user_profile,fieldValidations)
+			})
 		}
 
 		if(update_user_profile_success){
