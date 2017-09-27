@@ -22,6 +22,16 @@ const fieldValidations = [
 	ruleRunnerOnFormArray("educations","school_area_of_study","Area of study",required)
 ]
 
+/*
+	A set of fields with it's default value
+*/
+const ACTIVE_USER_PROFILE_DEFAULT_VALUES = {
+	educations:[{
+		school_begin_school_year: '2017',
+		school_end_school_year:'2017'
+	}]
+}
+
 class ProfileSetUp extends React.Component{
 	constructor(props){
 		super(props);
@@ -40,7 +50,8 @@ class ProfileSetUp extends React.Component{
 		this.errorFor = this.errorFor.bind(this);
 		this.state = {
 			showErrors: false,
-			validationErrors:run({}, fieldValidations),
+			validationErrors:run(ACTIVE_USER_PROFILE_DEFAULT_VALUES, fieldValidations),
+			active_user_profile: ACTIVE_USER_PROFILE_DEFAULT_VALUES
 		};
 	}
 
@@ -53,7 +64,8 @@ class ProfileSetUp extends React.Component{
 		var {upload_file_success,update_user_profile_success,active_user_profile} = nextProps;
 		
 		if(active_user_profile != null){
-			this.updateStatesActiveUserProfile(active_user_profile)
+			let new_active_user_profile = {...this.state.active_user_profile,...active_user_profile}
+			this.updateStatesActiveUserProfile(new_active_user_profile)
 			this.setState({
 				showErrors: active_user_profile.is_profile_set_up_already,
 			})
@@ -109,7 +121,6 @@ class ProfileSetUp extends React.Component{
 			fields.push(defaultVal)
 			let new_active_user_profile = {...this.state.active_user_profile,[field]:fields}
 			this.updateStatesActiveUserProfile(new_active_user_profile)
-			
 		}
 	}
 
