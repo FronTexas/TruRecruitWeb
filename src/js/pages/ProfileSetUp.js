@@ -127,7 +127,7 @@ class ProfileSetUp extends React.Component{
 		return (e)=>{
 			if(!this.state.active_user_profile) return
 			let fields = this.state.active_user_profile[field];
-			fields.push(defaultVal)
+			fields.push({...defaultVal})
 			let new_active_user_profile = {...this.state.active_user_profile,[field]:fields}
 			this.updateStatesActiveUserProfile(new_active_user_profile)
 		}
