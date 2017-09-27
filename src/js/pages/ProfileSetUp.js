@@ -282,6 +282,8 @@ class ProfileSetUp extends React.Component{
 								errorTexts={this.errorForArrayForm("educations")}
 								showError={this.state.showErrors}
 								></EducationInputForm>
+							
+							<p><b>Employment</b></p>
 							<EmploymentInputForm
 								{...this.props}
 								employments={active_user_profile.employments}
