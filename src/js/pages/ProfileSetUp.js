@@ -19,7 +19,10 @@ const fieldValidations = [
 	ruleRunner("phone_number","Phone Number",required),
 	ruleRunnerOnFormArray("educations","school_name","School name",required),
 	ruleRunnerOnFormArray("educations","school_degree","Degree",required),
-	ruleRunnerOnFormArray("educations","school_area_of_study","Area of study",required)
+	ruleRunnerOnFormArray("educations","school_area_of_study","Area of study",required),
+	ruleRunnerOnFormArray("employments","company_name","Company Name",required),
+	ruleRunnerOnFormArray("employments","company_title","Company Title",required),
+	ruleRunnerOnFormArray("employments","company_employment_city","Location",required),
 ]
 
 /*
@@ -29,6 +32,12 @@ const ACTIVE_USER_PROFILE_DEFAULT_VALUES = {
 	educations:[{
 		school_begin_school_year: '2017',
 		school_end_school_year:'2017'
+	}],
+	employments:[{
+	   "company_begin_month_employment":"January",
+       "company_begin_year_employment":"2017",
+       "company_end_month_employment":"January",
+       "company_end_year_employment":"2017",
 	}]
 }
 
@@ -269,14 +278,20 @@ class ProfileSetUp extends React.Component{
 								{...this.props} 
 								educations = {active_user_profile.educations} 	
 								onFieldsArrayChange={this.handleFieldsArrayChange("educations")}
-								onAddMoreFields={this.handleAddMoreFields("educations",{
-									school_begin_school_year: "2017",
-									school_end_school_year: "2017"
-								})}
+								onAddMoreFields={this.handleAddMoreFields("educations",ACTIVE_USER_PROFILE_DEFAULT_VALUES.educations[0])}
 								errorTexts={this.errorForArrayForm("educations")}
 								showError={this.state.showErrors}
 								></EducationInputForm>
-
+							<EmploymentInputForm
+								{...this.props}
+								employments={active_user_profile.employments}
+								onFieldsArrayChange={this.handleFieldsArrayChange("employments")}
+								onAddMoreFields={this.handleAddMoreFields("employments",ACTIVE_USER_PROFILE_DEFAULT_VALUES.employments[0])}
+								errorTexts={this.errorForArrayForm("employments")}
+								showError={this.state.showErrors}
+							>
+								
+							</EmploymentInputForm>
 							<p><b>Portfolio Link</b></p>
 								<input value={active_user_profile ? active_user_profile.portfolio_link : ''} onChange={this.handleFieldChanged("portfolio_link")} type="text" name="portfolio_link" id="" cols="30" rows="1" placeholder="link to portfolio">
 							</input>
