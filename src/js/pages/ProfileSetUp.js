@@ -267,10 +267,7 @@ class ProfileSetUp extends React.Component{
 							<p><b>Education</b></p>
 							<EducationInputForm 
 								{...this.props} 
-								educations = {active_user_profile && active_user_profile.educations ?  active_user_profile.educations : [{
-									school_begin_school_year: "2017",
-									school_end_school_year: "2017"
-								}]} 	
+								educations = {active_user_profile.educations} 	
 								onFieldsArrayChange={this.handleFieldsArrayChange("educations")}
 								onAddMoreFields={this.handleAddMoreFields("educations",{
 									school_begin_school_year: "2017",
