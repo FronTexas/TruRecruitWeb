@@ -7,12 +7,22 @@ class ResumeContainer extends Component{
 		super(props);
 		this.state = {
 			...this.props,
-			link_to_qr_code: `https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=${this.props.active_user_profile.uid}&color=00BC96&bgcolor=FFFFFF`
+			link_to_qr_code: `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${this.props.active_user_profile.uid}&color=00BC96&bgcolor=FFFFFF`
 		}
 	}
 	textQRCode(){
 		this.props.sendQRCodeAsText(this.props.active_user_profile.phone_number,this.state.link_to_qr_code);
 	}
+
+  buildQREmailMessage(link_to_qr_code){
+    return `<html>
+      <img src="${link_to_qr_code}" alt=""></img>
+    </html>`
+  }
+  
+  emailQRCode(){
+    this.props.sendQRCodeAsEmail(this.props.active_user_profile.email,this.buildQREmailMessage(this.state.link_to_qr_code))
+  }
 	render(){
 		return (
 			<div>
@@ -36,7 +46,9 @@ class ResumeContainer extends Component{
                        </a>
                 </div>
                 <div class="printshare-container">
-                       <div class="email-qr-code printshare-button hvr-shadow">
+                       <div 
+                        class="email-qr-code printshare-button hvr-shadow"
+                        onClick={this.emailQRCode.bind(this)}>
                           <i class="fa fa-envelope"></i>
                           <span>Email the QR Code</span>
                        </div>
