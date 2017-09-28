@@ -34,8 +34,13 @@ class ResumeContainer extends Component{
                           <i class="fa fa-floppy-o"></i>
                           <span>Save the QR Code</span>
                        </a>
-                    </div>
-
+                </div>
+                <div class="printshare-container">
+                       <div class="email-qr-code printshare-button hvr-shadow">
+                          <i class="fa fa-envelope"></i>
+                          <span>Email the QR Code</span>
+                       </div>
+                </div>
     			</div>
 			</div>
 	)

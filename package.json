@@ -37,6 +37,8 @@
     "loader-utils": "^1.1.0",
     "month": "^2.0.1",
     "nodemailer": "^4.1.0",
+    "passport": "^0.4.0",
+    "passport-google-oauth2": "^0.1.6",
     "postcss-loader": "^2.0.6",
     "prop-types": "^15.5.10",
     "react": "^0.14.9",
@@ -66,7 +68,8 @@
     "url-loader": "^0.5.9",
     "us": "^2.0.0",
     "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+    "xoauth2": "^1.2.0"
   },
   "devDependencies": {
     "url-loader": "^0.5.9"

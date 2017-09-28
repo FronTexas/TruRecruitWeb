@@ -3,4 +3,5 @@ const emailRoutes = require('./emailRoutes');
 
 module.exports = (app)=>{
 	twilioRoutes(app);
+	emailRoutes(app);
 };
