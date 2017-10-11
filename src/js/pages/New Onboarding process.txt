@@ -1,0 +1,19 @@
+New Onboarding process! 
+
+
+- Onboarding
+
+- EducationForm(props from Onboarding) implements FormContent
+- EmploymentForm(Props from Onboarding) implements FormContent
+
+Option 1: 
+	- contents = [(ContentExplaination,FormContent),...]
+		- located in Onboarding.js
+
+- Button 
+	- previous
+		- decrement the i that got passes onto FormContent and ContentExplaination
+	- next 
+		- increment the i that got passes onto FormContent and ContentExplaination
+	- submit
+		- just submit everything 

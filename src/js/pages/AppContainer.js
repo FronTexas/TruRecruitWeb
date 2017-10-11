@@ -19,6 +19,7 @@ import ProfileSetUp from './ProfileSetUp';
 import SignIn from './SignIn';
 import SignUp from './Signup';
 import UidProvider from '../components/UidProvider';
+import Onboarding from './Onboarding';
 
 import ScratchPad from './ScratchPad';
 
@@ -122,7 +123,14 @@ class AppContainer extends React.Component{
 						path="/scratch_pad" 
 						has_to_be_authenticated = {false}
 						hoc_props={this.props} 
-						></RouteWrapper>		
+						></RouteWrapper>
+
+					<RouteWrapper
+						component={Onboarding}
+						path="/onboarding" 
+						has_to_be_authenticated = {true}
+						hoc_props={this.props} 
+						></RouteWrapper>			
 	
 				</Layout>
 			</BrowserRouter>
